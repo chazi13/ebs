@@ -1,0 +1,23 @@
+{
+    "name": "chazi/ebs",
+    "description": "E-Banking System For School",
+    "type": "project",
+    "require-dev": {
+        "codeigniter/framework": "dev-master",
+        "cboden/ratchet": "dev-master"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Chairul Aziz",
+            "email": "m.chairul669@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.0"
+    },
+    "autoload": {
+        "codeigniter/framwork": "dev-masster"
+    }
+}
