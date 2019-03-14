@@ -1,15 +1,15 @@
 <?php
 defined('BASEPATH') OR die('No direct script access allowed!');
 
-function user_dir($username, $user_level, $parent_dir = '', $child_dir = '')
+function user_dir($username, $user_level, $child_dir = '')
 {
     $path = 'storage\\';
+    $user_dir = $path . md5($username . '&' . $user_level) . '\\';
     
-    if ($parent_dir !== '') {
-        $path .= $parent_dir . '\\';
+    if ($child_dir !== '') {
+        $user_dir .= $child_dir;
     }
 
-    $user_dir = $path . md5($username . '&' . $user_level);
     if (!file_exists($user_dir)) {
         mkdir($user_dir);
     }
@@ -31,8 +31,13 @@ function upload_foto($file_input, $upload_path, $filename)
 
     $CI->load->library('upload', $config);
     if ($CI->upload->do_upload($file_input)) {
-        return $upload_path . '\\' . $CI->upload->data('file_name');
+        return $upload_path . $CI->upload->data('file_name');
     } else {
         return ['errors', $CI->upload->display_errors()];
     }
+}
+
+function remove_file($file_path)
+{
+    unlink($file_path);
 }
