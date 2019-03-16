@@ -86,6 +86,13 @@ class Users extends CI_Controller
         }
     }
 
+    public function all()
+    {
+        $data_users = $this->users->get_all_users();
+        header('Content-Type: application/json');
+        echo json_encode($data_users);
+    }
+
     public function profil()
     {
         if ($this->uri->segment(3)) {

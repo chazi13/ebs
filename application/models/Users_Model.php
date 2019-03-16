@@ -10,11 +10,25 @@ class Users_Model extends CI_Model
         return $last_insert_id;
     }
 
+    public function get_all_users()
+    {
+        $this->db->select(['user_id', 'nama', 'email']);
+        $data_return = $this->db->get('users')->result();
+        return $data_return;
+    }
+
     public function get_user_profile($user_id)
     {
         $this->db->where('user_id', $user_id);
         $user_profile = $this->db->get('users')->result();
         return $user_profile;
+    }
+
+    public function user_saldo($user_id)
+    {
+        $user_data = $this->get_user_profile($user_id);
+        $user_saldo = $user_data[0]->saldo;
+        return $user_saldo;
     }
 
     public function update_user_data($user_data, $user_id)
