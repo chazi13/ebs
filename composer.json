@@ -15,7 +15,9 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "php": ">=7.0"
+        "php": ">=7.0",
+        "codeigniter/framwork": "dev-masster",
+        "twbs/bootstrap": "4.3.1"
     },
     "autoload": {
         "codeigniter/framwork": "dev-masster"
