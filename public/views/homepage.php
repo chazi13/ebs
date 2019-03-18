@@ -18,9 +18,9 @@
     <title>EBS | E-Banking Sekolah</title>
 </head>
 
-<body>
+<body class="vw-100">
     <div class="wrapper">
-        <nav id="navbar" class="navbar fixed-top navbar-expand-lg navbar-dark bg-purple col">
+        <nav id="navbar" class="navbar fixed-top navbar-expand-lg navbar-dark bg-purple vw-100">
             <div class="container">
                 <a class="navbar-brand" href="#">
                     <img src="<?= base_url('public/assets/img/ebs-logo-white.png') ?>" alt="" height="45px">
@@ -29,7 +29,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav ml-auto text-right">
                         <li class="nav-item pt-1 active">
                             <a class="nav-link text-uppercase" href="#">Beranda</a>
                         </li>
@@ -54,7 +54,7 @@
         <header class="pb-5">
             <!-- <div class="container"> -->
             <div class="sliders text-white">
-                <div data-lazy-background="<?= base_url('public/assets/img/banner.png') ?>">
+                <div data-lazy-background="<?= base_url('public/assets/img/banner-3.png') ?>">
                     <h3 class="text-uppercase" data-pos="['0%', '9.2%', '30%', '9.2%']" data-duration="700" data-effect="move">
                         Mulailah Menabung
                     </h3>
@@ -69,18 +69,18 @@
                         <img src="<?= base_url('public/assets/img/imgbanner3.png') ?>" alt="" height="300px">
                     </div>
                 </div>
-                <div data-lazy-background="<?= base_url('public/assets/img/banner.png') ?>">
-                    <h3 class="text-uppercase" data-pos="['0%', '56%', '30%', '50%']" data-duration="700" data-effect="move">
+                <div data-lazy-background="<?= base_url('public/assets/img/banner-3.png') ?>">
+                    <h3 class="text-uppercase" data-pos="['0%', '56%', '30%', '45%']" data-duration="700" data-effect="move">
                         Mulailah Menabung
                     </h3>
-                    <p data-pos="['40%', '100%', '40%', '50%']" data-duration="700" data-effect="move">
+                    <p data-pos="['40%', '100%', '40%', '45%']" data-duration="700" data-effect="move">
                         Dengan Elekrionik Bank Sekolah (EBS) kamu dapat belajar <br> mengelola keuanganmu dengan lebih mudah cepat dan aman
                     </p>
-                    <button class="btn btn-success" data-pos="['100%', '50%', '60%', '50%']" data-duration="700" data-effect="move">
+                    <button class="btn btn-success" data-pos="['100%', '50%', '60%', '45%']" data-duration="700" data-effect="move">
                         <h4 class="uppercase">Mulai Sekarang</h4>
                     </button>
 
-                    <div data-pos="['20%', '15%']" data-duration="700" data-delay="500" data-effect="fadein">
+                    <div data-pos="['20%', '9.2%']" data-duration="700" data-delay="500" data-effect="fadein">
                         <img src="<?= base_url('public/assets/img/imgbanner3.png') ?>" alt="" height="300px">
                     </div>
                 </div>
@@ -107,8 +107,10 @@
 
         <section id="about" class="py-5">
             <div class="container">
-                <h3 class="section-title text-uppercase text-center pb-2" data-aos="fade-down">Tentang</h3>
-                <div class="divider mb-4"></div>
+                <h3 class="section-title text-uppercase text-center pb-2" data-aos="fade-down">
+                    Tentang
+                    <div class="divider mt-2"></div>
+                </h3>
 
                 <p class="text-center" data-aos="fade-up">
                     Elekrionik Bank Sekolah (EBS) merupakan sistem untuk menabung yang dikembangkan khusus untuk lingkungan pendidikan/sekolah. <br>
@@ -119,8 +121,10 @@
         </section>
 
         <section id="features" class="py-5">
-            <h3 class="section-title text-uppercase text-center pb-2" data-aos="fade-down">Kelebihan</h3>
-            <div class="divider mb-4"></div>
+            <h3 class="section-title text-uppercase text-center pb-2" data-aos="fade-down">
+                Kelebihan
+                <div class="divider mt-2"></div>
+            </h3>
 
             <div class="container">
                 <div class="row">
@@ -159,7 +163,7 @@
             <div class="bg-img-overlay py-3">
                 <div class="container">
                     <div class="row">
-                        <div class="col col-md-6 col-sm-12">
+                        <div class="col-md-6 col-sm-12">
                             <div class="card border-top-0 border-left-0 border-bottom-0 border-right rounded-0 bg-transparent" data-aos="fade-right">
                                 <div class="card-body">
                                     <div class="row">
@@ -167,9 +171,9 @@
                                             <img src="<?= base_url('public/assets/img/tag.png') ?>" alt="" width="100%">
                                         </div>
                                         <div class="col-md-9 col-8 pt-4 pl-4">
-                                            <h1 class="bg-success text-uppercase text-white d-inline">
+                                            <h2 class="bg-success text-uppercase text-white d-inline">
                                                 Tabsis
-                                                </h2>
+                                            </h2>
                                         </div>
                                     </div>
                                     <div class="pt-2">
@@ -179,7 +183,7 @@
                             </div>
                         </div>
 
-                        <div class="col col-md-6 col-sm-12">
+                        <div class="col-md-6 col-sm-12">
                             <div class="card border-0 bg-transparent pl-2" data-aos="fade-left">
                                 <div class="card-body">
                                     <div class="row">
@@ -187,9 +191,9 @@
                                             <img src="<?= base_url('public/assets/img/bargains.png') ?>" alt="" width="100%">
                                         </div>
                                         <div class="col-md-9 col-8 pt-4 pl-4">
-                                            <h1 class="bg-danger text-uppercase text-white d-inline">
+                                            <h2 class="bg-danger text-uppercase text-white d-inline">
                                                 Cashsis
-                                                </h2>
+                                            </h2>
                                         </div>
                                     </div>
                                     <div class="pt-2">
@@ -204,8 +208,10 @@
         </section>
 
         <section id="data-depo" class="py-5">
-            <h3 class="section-title text-uppercase text-center pb-2" data-aos="fade-down">Data Tabungan</h3>
-            <div class="divider mb-4"></div>
+            <h3 class="section-title text-uppercase text-center pb-2" data-aos="fade-down">
+                Data Tabungan
+                <div class="divider mt-2"></div>
+            </h3>
 
             <div class="container">
                 <div class="row">
@@ -216,7 +222,7 @@
 
                                 <ul class="list-unstyled">
                                     <li class="media">
-                                        <h5 class="pt-4 ml-5 mr-3">#1</h5>
+                                        <h5 class="pt-4 ml-md-5 ml-sm-1 mr-3">#1</h5>
                                         <img src="<?= base_url('') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
                                         <div class="media-body pt-4">
                                             <h5 class="mt-0 mb-1">Nama</h5>
@@ -224,7 +230,7 @@
                                         </div>
                                     </li>
                                     <li class="media">
-                                        <h5 class="pt-4 ml-5 mr-3">#1</h5>
+                                        <h5 class="pt-4 ml-md-5 ml-sm-1 mr-3">#1</h5>
                                         <img src="<?= base_url('') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
                                         <div class="media-body pt-4">
                                             <h5 class="mt-0 mb-1">Nama</h5>
@@ -232,7 +238,7 @@
                                         </div>
                                     </li>
                                     <li class="media">
-                                        <h5 class="pt-4 ml-5 mr-3">#1</h5>
+                                        <h5 class="pt-4 ml-md-5 ml-sm-1 mr-3">#1</h5>
                                         <img src="<?= base_url('') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
                                         <div class="media-body pt-4">
                                             <h5 class="mt-0 mb-1">Nama</h5>
@@ -250,7 +256,7 @@
 
                                 <ul class="list-unstyled">
                                     <li class="media">
-                                        <h5 class="pt-4 ml-5 mr-3">#1</h5>
+                                        <h5 class="pt-4 ml-md-5 ml-sm-1 mr-3">#1</h5>
                                         <img src="<?= base_url('') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
                                         <div class="media-body pt-4">
                                             <h5 class="mt-0 mb-1">Nama</h5>
@@ -258,7 +264,7 @@
                                         </div>
                                     </li>
                                     <li class="media">
-                                        <h5 class="pt-4 ml-5 mr-3">#1</h5>
+                                        <h5 class="pt-4 ml-md-5 ml-sm-1 mr-3">#1</h5>
                                         <img src="<?= base_url('') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
                                         <div class="media-body pt-4">
                                             <h5 class="mt-0 mb-1">Nama</h5>
@@ -266,7 +272,7 @@
                                         </div>
                                     </li>
                                     <li class="media">
-                                        <h5 class="pt-4 ml-5 mr-3">#1</h5>
+                                        <h5 class="pt-4 ml-md-5 ml-sm-1 mr-3">#1</h5>
                                         <img src="<?= base_url('') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
                                         <div class="media-body pt-4">
                                             <h5 class="mt-0 mb-1">Nama</h5>
@@ -296,8 +302,10 @@
         </section>
 
         <section id="contact" class="py-5">
-            <h3 class="section-title text-uppercase text-center pb-2" data-aos="fade-down">Kontak Kami</h3>
-            <div class="divider mb-4"></div>
+            <h3 class="section-title text-uppercase text-center pb-2" data-aos="fade-down">
+                Kontak Kami
+                <div class="divider mt-2"></div>
+            </h3>
 
             <div class="container">
                 <div class="row">
@@ -311,10 +319,12 @@
                                                 <div class="col-md-9 col-sm-12 p-3">
                                                     <h5 class="card-title">Hubungi Kami</h5>
                                                     <form action="<?= base_url() ?>" method="post">
-                                                        <div class="form-group">
-                                                            <div class="row">
-                                                                <div class="col"><input type="text" class="form-control bg-grey" name="nama" id="" placeholder="Nama"></div>
-                                                                <div class="col"><input type="email" class="form-control bg-grey" name="email" id="" placeholder="Email"></div>
+                                                        <div class="form-group form-row mb-0">
+                                                            <div class="col-md-6 col-sm-12 mb-3">
+                                                                <input type="text" class="form-control bg-grey" name="nama" id="" placeholder="Nama">
+                                                            </div>
+                                                            <div class="col-md-6 col-sm-12 mb-3">
+                                                                <input type="email" class="form-control bg-grey" name="email" id="" placeholder="Email">
                                                             </div>
                                                         </div>
                                                         <div class="form-group">

@@ -31,16 +31,16 @@ $(document).ready(function() {
     }
   });
 
+  $('.navbar-toggler').click(function() {
+    $('#navbar').addClass('bg-purple').removeClass('bg-transparent');
+  });
+
   $('.sliders').DrSlider({
     navigationType: 'circle',
     showProgress: false,
     positionNavigation: 'in-center-bottom',
     navigationColor: '#ffffff',
-    navigationHighlightColor: '#7800bc',
+    navigationHighlightColor: '#3e0f5b',
     navigationHoverColor: '#7800bc'
   });
-
-  $('.navbar-toggler').click(function() {
-    $('#navbar').toggleClass('bg-purple');
-  });
-})
+});
