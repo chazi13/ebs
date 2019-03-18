@@ -47,10 +47,10 @@ class Users_Model extends CI_Model
                 $this->make_session($user_data[0]);
                 return true;
             } else {
-                echo 'Password salah!';
+                $this->login_error_notif('Password Salah!');
             }
         } else {
-            echo 'User tidak ditemukan!';
+            $this->login_error_notif('User Tidak Ditemukan');
         }
         return false;
     }
@@ -66,6 +66,12 @@ class Users_Model extends CI_Model
             'saldo'=> $user_data->saldo,
             'login_status' => true
         ]);
+    }
+
+    private function login_error_notif($msg)
+    {
+        $this->load->helper('Alert');
+        alert_content('error', 'Login Gagal!', $msg);
     }
 }
 

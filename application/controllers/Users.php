@@ -9,6 +9,15 @@ class Users extends CI_Controller
         $this->load->model('Users_Model', 'users');
     }
 
+    public function daftar()
+    {
+        if ($this->uri->segment(2) == 'pilih') {
+            return $this->load->view('daftar_pilihan');
+        } else {
+            return $this->load->view('daftar');
+        }
+    }
+
     public function add_user()
     {
         $this->load->helper('Upload');
@@ -16,6 +25,7 @@ class Users extends CI_Controller
         $user_data = [
             'no_induk' => @$post['no_induk'],
             'nama' => $post['nama'],
+            'kelas' => @$post['kelas'],
             'email' => @$post['email'],
             'telp' => @$post['telp'],
             'username' => $post['username'],

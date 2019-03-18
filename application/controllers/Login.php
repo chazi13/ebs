@@ -9,6 +9,11 @@ class Login extends CI_Controller
         $this->load->model('Users_Model', 'users');
     }
 
+    public function index()
+    {
+        return $this->load->view('login');
+    }
+
     public function auth_user($uri_username = '', $uri_password = '')
     {
         if (!$this->input->post()) {
@@ -20,14 +25,15 @@ class Login extends CI_Controller
         }
 
         if ($this->users->validate_user($username, $password)) {
+            $this->load->helper('Alert');
+            $msg = 'Selamat datang ' . $this->session->userdata('nama');
+            $url = base_url('dashboard');
+
             if ($uri_username !== '' && $uri_password !== '' && $this->session->userdata('level') == 'siswa') {
-                echo 'Isi Form Wali!';
+                $url = base_url('set_wali');
             }
 
-            header('Content-Type: application/json');
-            echo json_encode($this->session->userdata());
-        } else {
-            echo "Login Gagal!";
+            alert_content('success', 'Login Berhasil!', $msg, $url);
         }
     }
 
