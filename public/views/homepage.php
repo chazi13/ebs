@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="<?= base_url('public/assets/css/custom_front.css') ?>">
     <!-- AOS -->
     <link rel="stylesheet" href="<?= base_url('public/assets/js/plugin/aos/dist/aos.css') ?>">
-    <!-- Font Awesome -->
+    <!-- Fonts -->
     <link rel="stylesheet" href="<?= base_url('public/assets/css/fonts.min.css') ?>">
 
     <title>EBS | E-Banking Sekolah</title>
@@ -54,33 +54,33 @@
         <header class="pb-5">
             <!-- <div class="container"> -->
             <div class="sliders text-white">
-                <div data-lazy-background="<?= base_url('public/assets/img/banner-3.png') ?>">
-                    <h3 class="text-uppercase" data-pos="['0%', '9.2%', '30%', '9.2%']" data-duration="700" data-effect="move">
+                <div class="banner-background" data-lazy-background="<?= base_url('public/assets/img/banner-3.png') ?>">
+                    <h3 class="text-uppercase banner-title" data-pos="['0%', '9.2%', '30%', '9.2%']" data-duration="700" data-effect="move">
                         Mulailah Menabung
                     </h3>
-                    <p data-pos="['40%', '0%', '40%', '9.2%']" data-duration="700" data-effect="move">
-                        Dengan Elekrionik Bank Sekolah (EBS) kamu dapat belajar <br> mengelola keuanganmu dengan lebih mudah cepat dan aman
+                    <p class="banner-content" data-pos="['40%', '0%', '40%', '9.2%']" data-duration="700" data-effect="move">
+                        Dengan Elekrionik Bank Sekolah (EBS) kamu dapat <br>belajar mengelola keuanganmu dengan <br>lebih mudah cepat dan aman
                     </p>
-                    <button class="btn btn-success" data-pos="['100%', '9.2%', '60%', '9.2%']" data-duration="700" data-effect="move">
+                    <button class="btn btn-success banner-button" data-pos="['100%', '9.2%', '65%', '9.2%']" data-duration="700" data-effect="move">
                         <h4 class="uppercase">Mulai Sekarang</h4>
                     </button>
 
-                    <div data-pos="['20%', '56%']" data-duration="700" data-delay="500" data-effect="fadein">
+                    <div class="img-banner" data-pos="['15%', '56%']" data-duration="700" data-delay="500" data-effect="fadein">
                         <img src="<?= base_url('public/assets/img/imgbanner3.png') ?>" alt="" height="300px">
                     </div>
                 </div>
-                <div data-lazy-background="<?= base_url('public/assets/img/banner-3.png') ?>">
-                    <h3 class="text-uppercase" data-pos="['0%', '56%', '30%', '45%']" data-duration="700" data-effect="move">
+                <div class="banner-background" data-lazy-background="<?= base_url('public/assets/img/banner-3.png') ?>">
+                    <h3 class="text-uppercase banner-title" data-pos="['0%', '56%', '30%', '45%']" data-duration="700" data-effect="move">
                         Mulailah Menabung
                     </h3>
-                    <p data-pos="['40%', '100%', '40%', '45%']" data-duration="700" data-effect="move">
-                        Dengan Elekrionik Bank Sekolah (EBS) kamu dapat belajar <br> mengelola keuanganmu dengan lebih mudah cepat dan aman
+                    <p class="banner-content" data-pos="['40%', '100%', '40%', '45%']" data-duration="700" data-effect="move">
+                        Dengan Elekrionik Bank Sekolah (EBS) kamu dapat <br>belajar mengelola keuanganmu dengan <br>lebih mudah cepat dan aman
                     </p>
-                    <button class="btn btn-success" data-pos="['100%', '50%', '60%', '45%']" data-duration="700" data-effect="move">
+                    <button class="btn btn-success banner-button" data-pos="['100%', '50%', '65%', '45%']" data-duration="700" data-effect="move">
                         <h4 class="uppercase">Mulai Sekarang</h4>
                     </button>
 
-                    <div data-pos="['20%', '9.2%']" data-duration="700" data-delay="500" data-effect="fadein">
+                    <div class="img-banner" data-pos="['15%', '8%']" data-duration="700" data-delay="500" data-effect="fadein">
                         <img src="<?= base_url('public/assets/img/imgbanner3.png') ?>" alt="" height="300px">
                     </div>
                 </div>

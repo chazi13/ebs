@@ -34,8 +34,18 @@ $(document).ready(function() {
   $('.navbar-toggler').click(function() {
     $('#navbar').addClass('bg-purple').removeClass('bg-transparent');
   });
+  
+  if ($(window).width() <= 425) {
+    console.log(window.location.href + 'public/assets/img/banner.png');
+    $('.banner-background').attr('data-lazy-background', window.location.href + 'public/assets/img/banner-mobile.png');
+    $('.banner-title').attr('data-pos', "['0%', '9.2%', '30%', '5%']");
+    $('.banner-content').attr('data-pos', "['40%', '0%', '40%', '5%']");
+    $('.banner-button').attr('data-pos', "['100%', '9.2%', '65%', '5%']");
+    $('.img-banner').children().css('display', 'none');
+  }
 
   $('.sliders').DrSlider({
+    height: 500,
     navigationType: 'circle',
     showProgress: false,
     positionNavigation: 'in-center-bottom',
@@ -43,4 +53,5 @@ $(document).ready(function() {
     navigationHighlightColor: '#3e0f5b',
     navigationHoverColor: '#7800bc'
   });
+
 });
