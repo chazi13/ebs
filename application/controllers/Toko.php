@@ -9,11 +9,13 @@ class Toko extends CI_Controller
         $this->load->model('Tokos_Model', 'toko');
     }
 
-    public function profil()
+    public function edit_profil()
     {
-        $data_toko = $this->toko->get_toko_by_user_id($this->session->userdata('user_id'));
-        header('Content-Type: application/json');
-        echo json_encode($data_toko);
+        $data['toko'] = $this->toko->get_toko_by_user_id($this->session->userdata('user_id'));
+        $data['title'] = 'Edit Profil Toko';
+        $data['breadcrumbs'] = [['Edit Profil Toko']];
+
+        return $this->template->load('app/template', 'app/toko/edit_profile', $data);
     }
 
     public function update_profil()
@@ -37,10 +39,24 @@ class Toko extends CI_Controller
 
         $result = $this->toko->update_profile_toko($data_profile_toko, $post['toko_id']);
         if ($result) {
-            echo 'Profil Toko Telah Diubah!';
+            $msg = 'Profil Toko Telah Diubah!';
+            alert_content('success', 'Berhasil', $msg);
         } else {
-            echo 'Profil Toko Gagal Diubah!';
+            $msg = 'Profil Toko Gagal Diubah!';
+            alert_content('error', 'Gagal', $msg);
         }
+    }
+
+    public function add_item()
+    {
+        $data_toko = $this->toko->get_toko_by_user_id($this->session->userdata('user_id'));
+        $data['toko_id'] = $data_toko[0]->toko_id;
+        
+        $data['title'] = 'Tambah Item';
+        $data['item_active'] = 'active';
+        $data['breadcrumbs'] = [['Item', 'toko/item'], ['Tambah Item']];
+
+        return $this->template->load('app/template', 'app/toko/add_item', $data);
     }
 
     public function add_new_item()
@@ -67,26 +83,34 @@ class Toko extends CI_Controller
 
         $result = $this->toko->insert_item($data_item);
         if ($result) {
-            echo 'Item Telah Ditembahkan!';
+            $msg = 'Item Telah Ditembahkan!';
+            alert_content('success', 'Berhasil', $msg);
         } else {
-            echo 'Item Gagal Ditembahkan!';
+            $msg = 'Item Gagal Ditembahkan!';
+            alert_content('error', 'Gagal', $msg);
         }
     }
 
-    public function daftar_item()
+    public function item()
     {
-        $toko_id = $this->uri->segment(3);
-        $data_list_item = $this->toko->get_item_by_toko_id($toko_id);
-        header('Content-Type: application/json');
-        echo json_encode($data_list_item);
+        // echo $this->session->userdata('user_id');
+        $data_toko = $this->toko->get_toko_by_user_id($this->session->userdata('user_id'));
+        $toko_id = $data_toko[0]->toko_id;
+        $data['items'] = $this->toko->get_item_by_toko_id($toko_id);
+        $data['title'] = 'Daftar Item';
+        $data['item_active'] = 'active';
+        
+        return $this->template->load('app/template', 'app/toko/items', $data);
     }
 
-    public function edit_item()
+    public function edit_item($item_id)
     {
-        $item_id = $this->uri->segment(3);
-        $data_item = $this->toko->get_item_by_id($item_id);
-        header('Content-Type: application/json');
-        echo json_encode($data_item);
+        $data['item'] = $this->toko->get_item_by_id($item_id);
+        $data['title'] = 'Edit Item';
+        $data['item_active'] = 'active';
+        $data['breadcrumbs'] = [['Item', 'toko/item'], ['Edit Item']];
+
+        $this->template->load('app/template', 'app/toko/edit_item', $data);
     }
 
     public function update_item()
@@ -112,15 +136,17 @@ class Toko extends CI_Controller
 
         $result = $this->toko->update_item($data_item, $post['item_id']);
         if ($result) {
-            echo 'Item Telah Diubah!';
+            $msg = 'Item Telah Diubah!';
+            alert_content('success', 'Berhasil', $msg);
         } else {
-            echo 'Item Gagal Diubah!';
+            $msg = 'Item Gagal Diubah!';
+            alert_content('error', 'Gagal', $msg);
         }
     }
 
-    public function hapus_item()
+    public function hapus_item($item_id)
     {
-        $item_id = $this->uri->segment(3);
+        // $item_id = $this->uri->segment(3);
         $data_item = $this->toko->get_item_by_id($item_id);
         $result = $this->toko->delete_item($item_id);
 
@@ -128,9 +154,12 @@ class Toko extends CI_Controller
         if ($result) {
             $this->load->helper('Upload');
             remove_file($file_full_path);
-            echo 'Item Telah Dihapus!';
+            $msg =  'Item Telah Dihapus!';
+            $url_redirect = 'reload';
+            alert_content('success', 'Berhasil', $msg, $url_redirect);
         } else {
-            echo 'Item Gagal Dihapus!';
+            $msg =  'Item Gagal Dihapus!';
+            alert_content('error', 'Gagal', $msg);
         }
     }
     
