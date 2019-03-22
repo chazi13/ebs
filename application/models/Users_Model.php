@@ -12,8 +12,49 @@ class Users_Model extends CI_Model
 
     public function get_all_users()
     {
-        $this->db->select(['user_id', 'nama', 'email']);
+        $this->db->select(['user_id', 'nama', 'email', 'username', 'level']);
         $data_return = $this->db->get('users')->result();
+        return $data_return;
+    }
+
+    public function get_petugas()
+    {
+        $this->db->where('level','bmt');
+        $this->db->or_where('level', 'seragam');
+        $this->db->or_where('level', 'atk');
+        $this->db->or_where('level', 'print');
+        return $this->get_all_users();
+    }
+
+    public function get_siswa()
+    {
+        $this->db->where('level', 'siswa');
+        return $this->get_all_users();
+    }
+
+    public function get_guru()
+    {
+        $this->db->where('level', 'guru') ;
+        return $this->get_all_users();
+    }
+
+    public function get_kantin()
+    {
+        $this->db->where('level', 'kantin') ;
+        return $this->get_all_users();
+    }
+
+    public function get_wali($siswa_id)
+    {
+        $this->db->where('siswa_id', $siswa_id);
+        return $this->get_all_users();
+    }
+
+    public function get_num_group()
+    {
+        $this->db->select('COUNT(user_id) AS jml, level');
+        $this->db->group_by('level');
+        $data_return = $this->db->get('users')->result_array();
         return $data_return;
     }
 
@@ -70,7 +111,6 @@ class Users_Model extends CI_Model
 
     private function login_error_notif($msg)
     {
-        $this->load->helper('Alert');
         alert_content('error', 'Login Gagal!', $msg);
     }
 }

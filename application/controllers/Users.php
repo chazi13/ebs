@@ -18,10 +18,18 @@ class Users extends CI_Controller
         }
     }
 
+    public function add_petugas()
+    {
+        $data['title'] = 'Tambah Petugas';
+        $data['breadcrumbs'] = [['petugas', 'user/petugas'], ['tambah']];
+        return $this->template->load('app/template', 'app/users/add_petugas', $data);
+    }
+
     public function add_user()
     {
         $this->load->helper('Upload');
         $post = $this->input->post();
+
         $user_data = [
             'no_induk' => @$post['no_induk'],
             'nama' => $post['nama'],
@@ -36,7 +44,7 @@ class Users extends CI_Controller
         if (@$_FILES['foto'] && @$_FILES['foto']['error'] == 0) {
             $user_dir = user_dir($post['username'], $post['level']);
             $user_data['foto'] = upload_foto('foto', $user_dir, 'foto_profil');
-
+            
             if (is_array($user_data['foto'])) {
                 echo $user_data['foto']['errors'];
                 exit();
@@ -48,15 +56,19 @@ class Users extends CI_Controller
             $jenis = $post['level'];
             $this->create_new_toko($user_id, $jenis);
         }
-
+        
         if ($post['username'] && $post['password'] && @$post['register'] == 'true') {
             $uri_username = urlencode(base64_encode($post['username']));
             $uri_password = urlencode(base64_encode($post['password']));
-
-            redirect('login/auth_user/' . $uri_username . '/' . $uri_password);
+            
+            $msg = 'Selamat Datang ' . $post['nama'];
+            $redirect_url = base_url('login/auth_user/' . $uri_username . '/' . $uri_password);
+            alert_content('success', 'Berhasil Mendaftar!', $msg, $redirect_url);
+        } else {
+            $redirect_url = base_url('user/petugas');
+            $msg = 'Menambahkan Petugas ' . $post['level'];
+            alert_content('success', 'Registrasi Berhasil!', $msg, $redirect_url);
         }
-
-        echo 'Daftar Berhasil!';
     }
 
     private function create_new_toko($user_id, $jenis)
@@ -103,17 +115,56 @@ class Users extends CI_Controller
         echo json_encode($data_users);
     }
 
+    public function list($user_type)
+    {
+        $func = 'get_' . $user_type;
+        $data['users'] = $this->users->{$func}();
+        $data['title'] = 'Daftar ' . ucfirst($user_type);
+        $data[$user_type . '_active'] = 'active';
+        
+        return $this->template->load('app/template', 'app/users/list', $data);
+    }
+
     public function profil()
     {
-        if ($this->uri->segment(3)) {
-            $user_id = $this->uri->segment(3);
+        if ($this->uri->segment(4)) {
+            $user_id = $this->uri->segment(4);
         } else {
             $user_id = $this->session->userdata('user_id');
         }
         
-        $user_profile = $this->users->get_user_profile($user_id);
-        header('Content-Type: application/json');
-        echo json_encode($user_profile);
+        $data['user_profile'] = $this->users->get_user_profile($user_id);
+        $level = $data['user_profile'][0]->level;
+        $user_id = $data['user_profile'][0]->user_id;
+        unset($data['user_profile'][0]->password);
+
+        if ($level == 'siswa') {
+            $data['wali'] = $this->users->get_wali($user_id);
+        } elseif ($level == 'seragam' || $level == 'atk' || $level == 'kantin') {
+            $this->load->model('Tokos_Model', 'toko');
+            $data['toko'] = $this->toko-> get_toko_by_user_id($user_id);
+        }
+        $data['title'] = 'Profil User';
+        $data[$this->uri->segment(2) . '_active'] = 'active';
+
+        return $this->template->load('app/template', 'app/users/profile', $data);
+    }
+
+    public function edit()
+    {
+        if ($this->uri->segment(4)) {
+            $user_id = $this->uri->segment(4);
+        } else {
+            $user_id = $this->session->userdata('user_id');
+        }
+
+        $data['user_profile'] = $this->users->get_user_profile($user_id);
+        unset($data['user_profile'][0]->password);
+
+        $data['title'] = 'Edit Profil User';
+        $data[$this->uri->segment(2) . '_active'] = 'active';
+
+        return $this->template->load('app/template', 'app/users/edit', $data);
     }
 
     public function update_user()
@@ -143,9 +194,11 @@ class Users extends CI_Controller
 
         $result = $this->users->update_user_data($user_data, $post['user_id']);
         if ($result) {
-            echo "Data Berhasil Diubah!";
+            $msg = "Profil User Berhasil Diubah!";
+            alert_content('success', 'Berhasil Update', $msg);
         } else {
-            echo "Data Gagal Diubah!";
+            $msg = "Profil User Gagal Diubah!";
+            alert_content('', 'Gagal Update', $msg);
         }
     }
 }
