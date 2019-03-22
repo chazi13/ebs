@@ -25,7 +25,6 @@ class Login extends CI_Controller
         }
 
         if ($this->users->validate_user($username, $password)) {
-            $this->load->helper('Alert');
             $msg = 'Selamat datang ' . $this->session->userdata('nama');
             $url = base_url('dashboard');
 
@@ -43,8 +42,8 @@ class Login extends CI_Controller
         if ($this->session->userdata('user_id')) {
             redirect('login/destroy_session');
         }
-        header('Content-Type: application/json');
-        echo json_encode($this->session->userdata());
+        
+        redirect('login');
     }
 }
 

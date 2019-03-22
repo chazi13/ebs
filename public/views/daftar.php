@@ -24,7 +24,7 @@
                     <div class="card-body">
                         <h3 class="card-title">Form Daftar <?= ucfirst($this->uri->segment(2)) ?></h3>
 
-                        <form action="<?= base_url('users/add_user') ?>" method="post">
+                        <form id="form-daftar" action="<?= base_url('users/add_user') ?>" method="post">
                             <div class="row">
                                 <div class="col-md-4 col-sm-12">
                                     <div class="form-group">
@@ -51,6 +51,7 @@
                                             <label for="nama">Nama</label>
                                             <input type="text" name="nama" id="nama" class="form-control" placeholder="Nama Lengkap" required />
                                             <input type="hidden" name="level" value="<?= $this->uri->segment(2) ?>">
+                                            <input type="hidden" name="register" value="true">
                                         </div>
 
                                         <?php if ($this->uri->segment(2) == 'siswa') : ?>
@@ -60,24 +61,24 @@
                                         </div>
                                         <?php endif; ?>
                                     </div>
-                                    <div class="form-group form-row">
-                                        <div class="col">
+                                    <div class="form-group form-row mb-0">
+                                        <div class="col-md-6 col-sm-12 mb-3">
                                             <label for="email">E-mail</label>
                                             <input type="email" name="email" id="email" class="form-control" placeholder="example@mail.com" required />
                                         </div>
 
-                                        <div class="col">
+                                        <div class="col-md-6 col-sm-12 mb-3">
                                             <label for="telp">Telephone / WA</label>
                                             <input type="tel" name="telp" id="telp" class="form-control" placeholder="085141****" required />
                                         </div>
                                     </div>
-                                    <div class="form-group form-row">
-                                        <div class="col">
+                                    <div class="form-group form-row mb-0">
+                                        <div class="col-md-6 col-sm-12 mb-3">
                                             <label for="username">Username</label>
                                             <input type="text" name="username" id="username" class="form-control" placeholder="Username" required />
                                         </div>
 
-                                        <div class="col">
+                                        <div class="col-md-6 col-sm-12 mb-3">
                                             <label for="">Password</label>
                                             <input type="password" name="password" id="password" class="form-control" placeholder="********" required />
                                         </div>
@@ -120,6 +121,26 @@
                 console.log(readUrl(this));
                 console.log(this.files);
             });
+
+            $('#form-daftar').submit(function() {
+                let file_data = $('#upload-foto').prop('files')[0];
+                let form_data = new FormData(this);
+                let url_action = $(this).attr('action');
+                form_data.append('foto', file_data);
+
+                $.ajax({
+                    url: url_action,
+                    contentType: false,
+                    processData: false,
+                    data: form_data,
+                    type: 'post',
+                    success: function(result) {
+                        alertResponse(result);
+                    }
+                });
+
+                return false;
+            })
         })
     </script>
 </body>
