@@ -50,8 +50,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'home';
+
+// Users Route
 $route['daftar/(:any)'] = 'users/daftar';
 $route['logout'] = 'login/destroy_session';
-$route['users/edit/(:num)'] = 'users/profil/$1';
+$route['user/(:any)'] = 'users/list/$1';
+$route['user/(:any)/profil/(:num)'] ='users/profil/$1/$2';
+$route['user/(:any)/edit/(:num)'] = 'users/edit/$1/$2';
+
+// Toko & Item Route
+$route['toko/item/tambah'] = 'toko/add_item';
+$route['toko/item/edit/(:num)'] = 'toko/edit_item/$1';
+$route['toko/item/hapus/(:num)'] = 'toko/hapus_item/$1';
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
