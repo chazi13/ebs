@@ -17,31 +17,33 @@
 </head>
 <div class="wrapper">
     <div class="container pt-5">
-        <div class="card shadow mt-5 rounded-lg">
-            <div class="row">
-                <div class="col-md-8 pr-1">
-                    <img src="<?= base_url('public/assets/img/purple-bg.png') ?>" alt="" width="100%">
-                </div>
-                <div class="col-md-4">
-                    <form id="login-form" action="<?= base_url('login/auth_user') ?>" method="post">
-                        <div class="card-body">
-                            <h3 class="card-title">Masuk</h3>
+        <div class="col-md-12 col-sm-12">
+            <div class="card shadow mt-5 rounded-lg">
+                <div class="row">
+                    <div class="col-md-8 pr-1">
+                        <img src="<?= base_url('public/assets/img/purple-bg.png') ?>" alt="" width="100%">
+                    </div>
+                    <div class="col-md-4">
+                        <form id="login-form" action="<?= base_url('login/auth_user') ?>" method="post">
+                            <div class="card-body">
+                                <h3 class="card-title">Masuk</h3>
 
-                            <div class="form-group">
-                                <label for="username">Username</label>
-                                <input type="text" name="username" id="username" class="form-control" placeholder="Username" required />
-                            </div>
-                            <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="password" name="password" id="password" class="form-control" placeholder="*********" required />
-                            </div>
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input type="text" name="username" id="username" class="form-control" placeholder="Username" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" name="password" id="password" class="form-control" placeholder="*********" required />
+                                </div>
 
-                            <div class="form-group pt-3">
-                                <button type="submit" class="btn btn-block btn-success mb-2">Login</button>
-                                Belum punya akun? <a href="<?= base_url('daftar/pilih') ?>">Daftar Sekarang!</a>
+                                <div class="form-group pt-3">
+                                    <button type="submit" class="btn btn-block btn-success mb-2">Login</button>
+                                    Belum punya akun? <a href="<?= base_url('daftar/pilih') ?>">Daftar Sekarang!</a>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
