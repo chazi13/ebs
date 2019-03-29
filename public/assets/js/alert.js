@@ -15,7 +15,47 @@ let alertResponse = function(data) {
         },
     }).then(function () {
         if (r.redirect) {
-            window.location = r.redirect;
+            if (r.redirect == 'reload') {
+                window.location.reload();
+            } else {
+                window.location = r.redirect;
+            }
         }
     });
-}
+};
+
+let ajax = function (url) {
+    $.ajax({
+        url: url,
+        method: 'GET',
+        success: function (result) {
+            console.log(result);
+            alertResponse(result);
+        }
+    });
+};
+
+let alertConfirm = function(url) {
+    swal({
+        title: 'Konfirmasi',
+        text: 'Yakin Hapus Item?',
+        icon: 'info',
+        buttons: {
+            confirm: {
+                text: 'Ya, Hapus Item',
+                className: 'text-center btn btn-primary'
+            }, 
+            cancel: {
+                visible: true,
+                text: 'Tidak',
+                className: 'btn btn-danger'
+            }
+        },
+    }).then((Delete) => {
+        if (Delete) {
+            ajax(url);
+        } else {
+            swal.close();
+        }
+    });
+};
