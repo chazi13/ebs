@@ -198,7 +198,7 @@ class Users extends CI_Controller
             alert_content('success', 'Berhasil Update', $msg);
         } else {
             $msg = "Profil User Gagal Diubah!";
-            alert_content('', 'Gagal Update', $msg);
+            alert_content('error', 'Gagal Update', $msg);
         }
     }
 }
