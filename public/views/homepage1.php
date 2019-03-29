@@ -30,19 +30,19 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
                     <ul class="navbar-nav ml-auto text-right">
-                        <li class="nav-item pt-1 mx-2 active">
-                            <a class="nav-link text-uppercase" href="#">Beranda</a>
+                        <li class="nav-item pt-1 mx-3 active">
+                            <a class="nav-link text-uppercase" href="" element-target="#banner" onclick="return false">Beranda</a>
                         </li>
-                        <li class="nav-item pt-1 mx-2">
-                            <a class="nav-link text-uppercase" href="#about">Tentang</a>
+                        <li class="nav-item pt-1 mx-3">
+                            <a class="nav-link text-uppercase" href="" element-target="#about" onclick="return false">Tentang</a>
                         </li>
-                        <li class="nav-item pt-1 mx-2">
-                            <a class="nav-link text-uppercase" href="#">Layanan</a>
+                        <li class="nav-item pt-1 mx-3">
+                            <a class="nav-link text-uppercase" href="" element-target="#promotion" onclick="return false">Promo</a>
                         </li>
-                        <li class="nav-item pt-1 mx-2">
-                            <a class="nav-link text-uppercase" href="#contact">Kontak</a>
+                        <li class="nav-item pt-1 mx-3">
+                            <a class="nav-link text-uppercase" href="" element-target="#contact" onclick="return false">Kontak</a>
                         </li>
-                        <li class="nav-item ml-2">
+                        <li class="nav-item ml-3">
                             <a class="nav-link text-uppercase" href="<?= base_url('login') ?>">
                                 <span class="btn btn-success btn-rounded px-4 btn-sm">Masuk</span>
                             </a>
@@ -51,65 +51,30 @@
                 </div>
             </div>
         </nav>
-        <header class="pb-5">
-            <!-- <div class="container"> -->
-            <div class="sliders text-white">
-                <div class="banner-background" data-lazy-background="<?= base_url('public/assets/img/banner-3.png') ?>">
-                    <h3 class="text-uppercase banner-title" data-pos="['0%', '9.2%', '30%', '9.2%']" data-duration="700" data-effect="move">
-                        Mulailah Menabung
-                    </h3>
-                    <p class="banner-content" data-pos="['40%', '0%', '40%', '9.2%']" data-duration="700" data-effect="move">
-                        Dengan Elekrionik Bank Sekolah (EBS) kamu dapat <br>belajar mengelola keuanganmu dengan <br>lebih mudah cepat dan aman
-                    </p>
-                    <button class="btn btn-success banner-button" data-pos="['100%', '9.2%', '65%', '9.2%']" data-duration="700" data-effect="move">
-                        <h4 class="uppercase">Mulai Sekarang</h4>
-                    </button>
+        <header id="banner" class="mt-5">
+            <div class="bg-image mt-2 pt-5 pb-5">
+                <div class="container pt-5 pb-3">
+                    <div class="col-md-6 col-sm-12 pt-5 pb-3">
+                        <div class="content mb-3">
+                            <h1 class="banner-title text-uppercas">Mulailah Menabung</h1>
+                            <p class="banner-content">
+                                Dengan Elekrionik Bank Sekolah (EBS) kamu dapat belajar mengelola keuanganmu dengan lebih mudah cepat dan aman
+                            </p>
+                        </div>
 
-                    <div class="img-banner" data-pos="['15%', '56%']" data-duration="700" data-delay="500" data-effect="fadein">
-                        <img src="<?= base_url('public/assets/img/imgbanner3.png') ?>" alt="" height="300px">
-                    </div>
-                </div>
-                <div class="banner-background" data-lazy-background="<?= base_url('public/assets/img/banner-3.png') ?>">
-                    <h3 class="text-uppercase banner-title" data-pos="['0%', '56%', '30%', '45%']" data-duration="700" data-effect="move">
-                        Mulailah Menabung
-                    </h3>
-                    <p class="banner-content" data-pos="['40%', '100%', '40%', '45%']" data-duration="700" data-effect="move">
-                        Dengan Elekrionik Bank Sekolah (EBS) kamu dapat <br>belajar mengelola keuanganmu dengan <br>lebih mudah cepat dan aman
-                    </p>
-                    <button class="btn btn-success banner-button" data-pos="['100%', '50%', '65%', '45%']" data-duration="700" data-effect="move">
-                        <h4 class="uppercase">Mulai Sekarang</h4>
-                    </button>
-
-                    <div class="img-banner" data-pos="['15%', '8%']" data-duration="700" data-delay="500" data-effect="fadein">
-                        <img src="<?= base_url('public/assets/img/imgbanner3.png') ?>" alt="" height="300px">
+                        <button class="btn btn-success btn-rounded banner-button mt-3 px-4" data-pos="['100%', '50%', '65%', '45%']" data-duration="700" data-effect="move">
+                            <h4 class="uppercase">Mulai Sekarang</h4>
+                        </button>
                     </div>
                 </div>
             </div>
-            <!-- <div class="slider-banner text-white py-5">
-                    <div class="row">
-                        <div class="col-md-6 col-sm-12 pt-5">
-                            <h1 class="text-uppercase">Mulailah Menabung</h1>
-                            <p>Dengan Elekrionik Bank Sekolah (EBS) kamu dapat belajar mengelola keuanganmu dengan lebih mudah cepat dan aman</p>
-
-                            <div class="button-container py-3">
-                                <button class="btn btn-success bg-gradient-success btn-rounded px-4 text-white">
-                                    <h4 class="text-uppercase">Mulai Sekarang</h4>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-md-6 d-sm-none d-md-block text-center">
-                            <img src="<?= base_url('public/assets/img/imgbanner3.png') ?>" alt="" height="300px">
-                        </div>
-                    </div>
-                </div> -->
-            <!-- </div> -->
         </header>
 
-        <section id="about" class="py-5">
+        <section id="about" class="py-5 bg-light">
             <div class="container">
                 <h3 class="section-title text-uppercase text-center pb-2">
                     Tentang
-                    <div class="divider mt-2"></div>
+                    <div class="divider my-2"></div>
                 </h3>
 
                 <p class="text-center">
@@ -123,13 +88,13 @@
         <section id="features" class="py-5">
             <h3 class="section-title text-uppercase text-center pb-2">
                 Kelebihan
-                <div class="divider mt-2"></div>
+                <div class="divider my-2"></div>
             </h3>
 
             <div class="container">
                 <div class="row">
-                    <div class="col-md-4 col-sm-12 pb-4">
-                        <div class="card shadow border-top">
+                    <div class="col-md-4 col-sm-12 pb-4 px-4">
+                        <div class="card shadow-sm border-0">
                             <div class="card-body text-center">
                                 <img src="<?= base_url('public/assets/img/ok.png') ?>" alt="" class="w-25 my-3">
                                 <h4>Mudah</h4>
@@ -137,8 +102,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-12 pb-4">
-                        <div class="card shadow border-top">
+                    <div class="col-md-4 col-sm-12 pb-4 px-4">
+                        <div class="card shadow-sm border-0">
                             <div class="card-body text-center">
                                 <img src="<?= base_url('public/assets/img/flash.png') ?>" alt="" class="w-25 my-3">
                                 <h4>Cepat</h4>
@@ -146,8 +111,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-12 pb-4">
-                        <div class="card shadow border-top">
+                    <div class="col-md-4 col-sm-12 pb-4 px-4">
+                        <div class="card shadow-sm border-0">
                             <div class="card-body text-center">
                                 <img src="<?= base_url('public/assets/img/security.png') ?>" alt="" class="w-25 my-3">
                                 <h4>Aman</h4>
@@ -210,12 +175,12 @@
         <section id="data-depo" class="py-5">
             <h3 class="section-title text-uppercase text-center pb-2">
                 Data Tabungan
-                <div class="divider mt-2"></div>
+                <div class="divider my-2"></div>
             </h3>
 
             <div class="container">
                 <div class="row">
-                    <div class="col col-md-6 col-sm-12 pb-3">
+                    <div class="col col-md-5 col-sm-12 pb-3 offset-md-1">
                         <div class="card bg-success">
                             <div class="card-body text-white">
                                 <h4 class="card-title text-uppercase text-center">Tertinggi</h4>
@@ -225,31 +190,31 @@
                                         <h5 class="pt-4 ml-md-5 ml-sm-1 mr-3">#1</h5>
                                         <img src="<?= base_url('') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
                                         <div class="media-body pt-4">
-                                            <h5 class="mt-0 mb-1">Nama</h5>
-                                            <p class="font-weght-lighter">Kelas</p>
+                                            <h5 class="mt-0 mb-1">Dinda Rahayu</h5>
+                                            <p class="font-weght-lighter">XII Pariwisata</p>
                                         </div>
                                     </li>
                                     <li class="media">
-                                        <h5 class="pt-4 ml-md-5 ml-sm-1 mr-3">#1</h5>
+                                        <h5 class="pt-4 ml-md-5 ml-sm-1 mr-3">#2</h5>
                                         <img src="<?= base_url('') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
                                         <div class="media-body pt-4">
-                                            <h5 class="mt-0 mb-1">Nama</h5>
-                                            <p class="font-weght-lighter">Kelas</p>
+                                            <h5 class="mt-0 mb-1">Auliya Damaiyanti</h5>
+                                            <p class="font-weght-lighter">XII Multimedia</p>
                                         </div>
                                     </li>
                                     <li class="media">
-                                        <h5 class="pt-4 ml-md-5 ml-sm-1 mr-3">#1</h5>
+                                        <h5 class="pt-4 ml-md-5 ml-sm-1 mr-3">#3</h5>
                                         <img src="<?= base_url('') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
                                         <div class="media-body pt-4">
-                                            <h5 class="mt-0 mb-1">Nama</h5>
-                                            <p class="font-weght-lighter">Kelas</p>
+                                            <h5 class="mt-0 mb-1">Adinda Khalisa</h5>
+                                            <p class="font-weght-lighter">XI Pariwisata</p>
                                         </div>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="col col-md-6 col-sm-12 pb-3">
+                    <div class="col col-md-5 col-sm-12 pb-3">
                         <div class="card bg-danger">
                             <div class="card-body text-white">
                                 <h4 class="card-title text-uppercase text-center">Terendah</h4>
@@ -259,24 +224,24 @@
                                         <h5 class="pt-4 ml-md-5 ml-sm-1 mr-3">#1</h5>
                                         <img src="<?= base_url('') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
                                         <div class="media-body pt-4">
-                                            <h5 class="mt-0 mb-1">Nama</h5>
-                                            <p class="font-weght-lighter">Kelas</p>
+                                            <h5 class="mt-0 mb-1">Ahmad Rauli</h5>
+                                            <p class="font-weght-lighter">X Multimedia</p>
+                                        </div>
+                                    </li>
+                                    <li class="media">
+                                        <h5 class="pt-4 ml-md-5 ml-sm-1 mr-3">#2</h5>
+                                        <img src="<?= base_url('') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
+                                        <div class="media-body pt-4">
+                                            <h5 class="mt-0 mb-1">Ananda Suprianto</h5>
+                                            <p class="font-weght-lighter">XII Multimedia</p>
                                         </div>
                                     </li>
                                     <li class="media">
                                         <h5 class="pt-4 ml-md-5 ml-sm-1 mr-3">#1</h5>
                                         <img src="<?= base_url('') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
                                         <div class="media-body pt-4">
-                                            <h5 class="mt-0 mb-1">Nama</h5>
-                                            <p class="font-weght-lighter">Kelas</p>
-                                        </div>
-                                    </li>
-                                    <li class="media">
-                                        <h5 class="pt-4 ml-md-5 ml-sm-1 mr-3">#1</h5>
-                                        <img src="<?= base_url('') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
-                                        <div class="media-body pt-4">
-                                            <h5 class="mt-0 mb-1">Nama</h5>
-                                            <p class="font-weght-lighter">Kelas</p>
+                                            <h5 class="mt-0 mb-1">Aji Priyatna</h5>
+                                            <p class="font-weght-lighter">X Pariwisata</p>
                                         </div>
                                     </li>
                                 </ul>
@@ -304,7 +269,7 @@
         <section id="contact" class="py-5">
             <h3 class="section-title text-uppercase text-center pb-2">
                 Kontak Kami
-                <div class="divider mt-2"></div>
+                <div class="divider my-2"></div>
             </h3>
 
             <div class="container">
@@ -382,7 +347,7 @@
             </div>
         </section>
 
-        <span class="back-to-top invisible fixed-bottom bg-success shadow rounded-circle m-2 px-3 py-2 float-right">
+        <span class="back-to-top invisible fixed-bottom bg-success shadow rounded-circle m-2 my-5 px-3 py-2 float-right">
             <a href="#" class="text-white">
                 <i class="fas fa-angle-up fa-2x"></i>
             </a>
