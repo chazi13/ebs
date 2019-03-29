@@ -29,9 +29,37 @@ class Transaction extends CI_Controller
 
         $result = $this->insert_new_transaction('IS', $data_transaction);
         if ($result) {
-            $this->update_saldo($post['user_id'], $post['jml_tabung'], 'plus');
+            $msg = 'Tabungan Berhasil Ditambahkan';
+            $msg .= $this->update_saldo($post['user_id'], $post['jml_tabung'], 'plus');
+            alert_content('success', 'Berhasil Melakukan Transaksi', $msg);
         } else {
-            echo 'Gagal Melakukan Transaksi';
+            $msg = 'Tabungan Gagal Ditambahkan';
+            alert_content('error', 'Gagal Melakukan Transaksi', $msg);
+        }
+    }
+
+    public function pull_cash()
+    {
+        $post = $this->input->post();
+
+        $this->check_saldo($post['user_id'], $post['nominal']);
+
+        $data_transaction = [
+            'total' => $post['jml_tabung'],
+            'jenis' => 'isi saldo',
+            'keterangan' => 'Menabung sebesar ' . rupiah($post['jml_tabung']) . ' pada hari ' . tgl($this->date),
+            'status' => 'Selesai',
+            'user_id' => $post['user_id']
+        ];
+
+        $result = $this->insert_new_transaction('IS', $data_transaction);
+        if ($result) {
+            $msg = 'Tabungan Berhasil Ditambahkan';
+            $msg .= $this->update_saldo($post['user_id'], $post['jml_tabung'], 'plus');
+            alert_content('success', 'Berhasil Melakukan Transaksi', $msg);
+        } else {
+            $msg = 'Tabungan Gagal Ditambahkan';
+            alert_content('error', 'Gagal Melakukan Transaksi', $msg);
         }
     }
 
@@ -206,10 +234,24 @@ class Transaction extends CI_Controller
             if ($this->session->userdata('user_id') == $user_id) {
                 $this->session->set_userdata(['saldo' => $new_user_saldo['saldo']]);
             }
-            echo 'Transaksi Sukses';
+            return '<br>Saldo Berhasil diupdate';
         } else {
-            echo 'Transaksi Gagal';
+            return '<br>Saldo Gagal diupdate';
         }
+    }
+
+    private function check_saldo($user_id, $nominal)
+    {
+        $user_saldo = $this->users->user_saldo($user_id);
+        if ($user_saldo >= $nominal) {
+            $comparsion = $user_saldo - $nominal;
+            $most_exist = (40 / 100) * $user_saldo;
+            if ($comparsion >= $most_exist) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     // public function confirm_transaction()
