@@ -16,16 +16,17 @@
     <link rel="stylesheet" href="<?= base_url('public/assets/css/fonts.min.css') ?>">
 
     <title>Dashboard | <?= ucfirst($this->session->userdata('level')) ?></title>
+    <?php $foto = $this->session->userdata('foto') ? $this->session->userdata('foto') : 'public/assets/img/blank_user.png'; ?>
 </head>
 
 <body>
     <div class="wrapper">
         <header class="main-header">
             <!-- Logo Header -->
-            <div class="logo-header" data-background-color="white">
+            <div class="logo-header text-center" data-background-color="white">
 
                 <a href="<?= base_url() ?>" class="logo">
-                    <img src="<?= base_url('public/assets/img/ebs-logo.png') ?>" alt="navbar brand" class="navbar-brand w-50">
+                    <img src="<?= base_url('public/assets/img/ebs-logo.png') ?>" alt="navbar brand" class="navbar-brand h-75">
                 </a>
                 <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon">
@@ -106,14 +107,14 @@
                         <li class="nav-item dropdown hidden-caret">
                             <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
                                 <div class="avatar-sm">
-                                    <img src="<?= base_url($this->session->userdata('foto')) ?>" alt="" class="avatar-img rounded-circle">
+                                    <img src="<?= base_url($foto) ?>" alt="" class="avatar-img rounded-circle">
                                 </div>
                             </a>
                             <ul class="dropdown-menu dropdown-user animated fadeIn">
                                 <div class="dropdown-user-scroll scrollbar-outer">
                                     <li>
                                         <div class="user-box">
-                                            <div class="avatar-lg"><img src="<?= base_url($this->session->userdata('foto')) ?>" alt="image profile" class="avatar-img rounded"></div>
+                                            <div class="avatar-lg"><img src="<?= base_url($foto) ?>" alt="image profile" class="avatar-img rounded"></div>
                                             <div class="u-text">
                                                 <h4><?= $this->session->userdata('nama') ?></h4>
                                                 <p class="text-muted"><?= $this->session->userdata('email') ?></p>
@@ -123,11 +124,7 @@
                                     </li>
                                     <li>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#">My Profile</a>
-                                        <a class="dropdown-item" href="#">My Balance</a>
-                                        <a class="dropdown-item" href="#">Inbox</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#">Account Setting</a>
+                                        <a class="dropdown-item" href="#">Profil Ku</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="<?= base_url('logout') ?>">Logout</a>
                                     </li>
@@ -147,7 +144,7 @@
                     <!-- User Panel -->
                     <div class="user">
                         <div class="avatar-sm float-left mr-2">
-                            <img src="<?= base_url($this->session->userdata('foto')) ?>" alt="" class="avatar-img rounded-circle">
+                            <img src="<?= base_url($foto) ?>" alt="" class="avatar-img rounded-circle">
                         </div>
                         <div class="info">
                             <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
@@ -191,6 +188,19 @@
                                 <p>Guru</p>
                             </a>
                         </li>
+                        <?php elseif ($this->auth->is_level('bmt')) : ?>
+                        <li class="nav-item <?= @$nabung_active ?>">
+                            <a href="<?= base_url('saldo/push') ?>">
+                                <i class="fas fa-piggy-bank"></i>
+                                <p>Menabung</p>
+                            </a>
+                        </li>
+                        <li class="nav-item <?= @$tarik_active ?>">
+                            <a href="<?= base_url('saldo/pull') ?>">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <p>Tarik Tunai</p>
+                            </a>
+                        </li>
                         <?php elseif ($this->auth->is_level(['seragam', 'atk', 'kantin'])) : ?>
                         <li class="nav-item <?= @$item_active ?>">
                             <a href="<?= base_url('toko/item') ?>">
@@ -198,6 +208,58 @@
                                 <p>Item</p>
                             </a>
                         </li>
+                        <?php elseif ($this->auth->is_level(['seragam', 'atk', 'kantin', 'print'])) : ?>
+                        <li class="nav-item <?= @$pesanan_active ?>">
+                            <a href="<?= base_url('pesanan/') ?>">
+                                <i class="fas fa-list-alt"></i>
+                                <p>Pesanan</p>
+                            </a>
+                        </li>
+                        <?php elseif ($this->auth->is_level(['siswa', 'guru'])) : ?>
+                        <li class="nav-item">
+                            <a href="<?= base_url() ?>">
+                                <i class="fas fa-book"></i>
+                                <p>Tabunganku</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= base_url('saldo/transfer') ?>">
+                                <i class="fas fa-exchange-alt"></i>
+                                <p>Transfer</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= base_url() ?>">
+                                <i class="fas fa-store"></i>
+                                <p>Jajan</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= base_url() ?>">
+                                <i class="fas fa-pencil-ruler"></i>
+                                <p>ATK</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= base_url() ?>">
+                                <i class="fas fa-print"></i>
+                                <p>Print</p>
+                            </a>
+                        </li>
+                            <?php if ($this->auth->is_level('siswa')) : ?>
+                            <li class="nav-item">
+                                <a href="<?= base_url() ?>">
+                                    <i class="fas fa-user-tie"></i>
+                                    <p>Seragam</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?= base_url() ?>">
+                                    <i class="fas fa-receipt"></i>
+                                    <p>SPP</p>
+                                </a>
+                            </li>
+                            <?php endif; ?>
                         <?php endif; ?>
                     </ul>
                 </div>
@@ -284,9 +346,44 @@
                 console.log(this.files);
             });
 
+            let formatRupiah = function(angka) {
+                let number_string = angka.replace(/[^,\d]/g, '').toString();
+                let split = number_string.split(',');
+                let sisa = split[0].length % 3;
+                let rupiah = split[0].substr(0, sisa);
+                let ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+                if (ribuan) {
+                    let separator = sisa ? '.' : '';
+                    rupiah += separator + ribuan.join('.');
+                }
+
+                rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+                return rupiah;
+            }
+
+            $('.input-rupiah').on('input', function() {
+                let value = $(this).val();
+                let nominal = formatRupiah(value);
+                $(this).val(nominal);
+            });
+
             $('.basic-form').submit(function() {
                 let form_data = new FormData(this);
                 let url_action = $(this).attr('action');
+
+                if ($(this).hasClass('form-nominal')) {
+                    let rupiah = $('.input-rupiah').val();
+                    let jml_tabung = parseInt(rupiah.replace(/[.,]/g, ''));
+                    $('.input-rupiah').val(jml_tabung);
+
+                    form_data.append('jml_tabung', jml_tabung);
+                }
+
+                for (var value of form_data.values()) {
+                    console.log(value);
+                }
+
                 $.ajax({
                     url: url_action,
                     method: 'POST',
@@ -311,27 +408,29 @@
                     form_data.append(file_upload_name, file_data);
                 }
 
-                $.ajax({
-                    url: url_action,
-                    contentType: false,
-                    processData: false,
-                    data: form_data,
-                    type: 'post',
-                    success: function(result) {
-                        alertResponse(result);
-                    }
-                });
+                $(this).serialize();
+
+                // $.ajax({
+                //     url: url_action,
+                //     contentType: false,
+                //     processData: false,
+                //     data: form_data,
+                //     type: 'post',
+                //     success: function(result) {
+                //         alertResponse(result);
+                //     }
+                // });
 
                 return false;
             });
 
             $('.alert-confirm').click(function() {
                 let url = $(this).attr('href');
-                
+
                 alertConfirm(url);
 
                 return false;
-            })
+            });
 
             $('.back').click(function() {
                 window.history.back();
