@@ -10,8 +10,6 @@
     <link rel="stylesheet" href="<?= base_url('public/assets/css/bootstrap.min.css') ?>">
     <!-- Custom Css -->
     <link rel="stylesheet" href="<?= base_url('public/assets/css/custom_front.css') ?>">
-    <!-- AOS -->
-    <link rel="stylesheet" href="<?= base_url('public/assets/js/plugin/aos/dist/aos.css') ?>">
     <!-- Fonts -->
     <link rel="stylesheet" href="<?= base_url('public/assets/css/fonts.min.css') ?>">
 
@@ -20,7 +18,7 @@
 
 <body class="vw-100">
     <div class="wrapper">
-        <nav id="navbar" class="navbar fixed-top navbar-expand-lg navbar-dark bg-purple vw-100">
+        <nav id="navbar" class="navbar fixed-top navbar-teal navbar-expand-lg navbar-dark bg-purple vw-100">
             <div class="container">
                 <a class="navbar-brand" href="#">
                     <img src="<?= base_url('public/assets/img/ebs-logo-white.png') ?>" alt="" height="45px">
@@ -33,18 +31,18 @@
                         <li class="nav-item pt-1 mx-3 active">
                             <a class="nav-link text-uppercase" href="" element-target="#banner" onclick="return false">Beranda</a>
                         </li>
-                        <li class="nav-item pt-1 mx-3">
+                        <li class="nav-item pt-1 mx-3 non-active">
                             <a class="nav-link text-uppercase" href="" element-target="#about" onclick="return false">Tentang</a>
                         </li>
-                        <li class="nav-item pt-1 mx-3">
+                        <li class="nav-item pt-1 mx-3 non-active">
                             <a class="nav-link text-uppercase" href="" element-target="#promotion" onclick="return false">Promo</a>
                         </li>
-                        <li class="nav-item pt-1 mx-3">
+                        <li class="nav-item pt-1 mx-3 non-active">
                             <a class="nav-link text-uppercase" href="" element-target="#contact" onclick="return false">Kontak</a>
                         </li>
                         <li class="nav-item ml-3">
                             <a class="nav-link text-uppercase" href="<?= base_url('login') ?>">
-                                <span class="btn btn-success btn-rounded px-4 btn-sm">Masuk</span>
+                                <span class="btn btn-bg-custom btn-rounded px-4 btn-sm">Masuk</span>
                             </a>
                         </li>
                     </ul>
@@ -56,14 +54,16 @@
                 <div class="container pt-5 pb-3">
                     <div class="col-md-6 col-sm-12 pt-5 pb-3">
                         <div class="content mb-3">
-                            <h1 class="banner-title text-uppercas">Mulailah Menabung</h1>
+                            <h1 class="banner-title text-uppercase">Mulailah Menabung</h1>
                             <p class="banner-content">
-                                Dengan Elekrionik Bank Sekolah (EBS) kamu dapat belajar mengelola keuanganmu dengan lebih mudah cepat dan aman
+                                Dengan Elekrionik Bank Sekolah (EBS) kamu dapat belajar mengelola keuanganmu dengan lebih aman, mudah, dan cepat
                             </p>
                         </div>
 
-                        <button class="btn btn-success btn-rounded banner-button mt-3 px-4" data-pos="['100%', '50%', '65%', '45%']" data-duration="700" data-effect="move">
-                            <h4 class="uppercase">Mulai Sekarang</h4>
+                        <button class="btn background btn-rounded banner-button mt-3 px-4 shadow shadow-animate">
+                            <a href="<?= base_url('daftar/pilih') ?> " class="text-decoration-none text-white hover-animate">
+                                <h4 class="uppercase">Mulai Sekarang</h4>
+                            </a>
                         </button>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
                     <div class="col-md-4 col-sm-12 pb-4 px-4">
                         <div class="card shadow-sm border-0">
                             <div class="card-body text-center">
-                                <img src="<?= base_url('public/assets/img/ok.png') ?>" alt="" class="w-25 my-3">
+                                <img src="<?= base_url('public/assets/img/icon_1.png') ?>" alt="" class="w-25 my-3">
                                 <h4>Mudah</h4>
                                 <p>Memudahkan siswa melakukan kegiatan transaksi di sekolah</p>
                             </div>
@@ -105,7 +105,7 @@
                     <div class="col-md-4 col-sm-12 pb-4 px-4">
                         <div class="card shadow-sm border-0">
                             <div class="card-body text-center">
-                                <img src="<?= base_url('public/assets/img/flash.png') ?>" alt="" class="w-25 my-3">
+                                <img src="<?= base_url('public/assets/img/icon_2.png') ?>" alt="" class="w-25 my-3">
                                 <h4>Cepat</h4>
                                 <p>Menghemat waktu melakukan kegiatan transaksi di sekolah</p>
                             </div>
@@ -114,7 +114,7 @@
                     <div class="col-md-4 col-sm-12 pb-4 px-4">
                         <div class="card shadow-sm border-0">
                             <div class="card-body text-center">
-                                <img src="<?= base_url('public/assets/img/security.png') ?>" alt="" class="w-25 my-3">
+                                <img src="<?= base_url('public/assets/img/icon_3.png') ?>" alt="" class="w-25 my-3">
                                 <h4>Aman</h4>
                                 <p>Membantu siswa dalam menjaga dan menyimpan uang di sekolah</p>
                             </div>
@@ -181,14 +181,24 @@
             <div class="container">
                 <div class="row">
                     <div class="col col-md-5 col-sm-12 pb-3 offset-md-1">
-                        <div class="card bg-success">
+                        <div class="card background">
                             <div class="card-body text-white">
                                 <h4 class="card-title text-uppercase text-center">Tertinggi</h4>
 
                                 <ul class="list-unstyled">
+                                    <?php foreach ($tertinggi as $i => $tt) : ?>
                                     <li class="media">
+                                        <h5 class="pt-4 ml-md-5 ml-sm-1 mr-3">#<?= ($i + 1) ?></h5>
+                                        <img src="<?= base_url($tt->foto) ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
+                                        <div class="media-body pt-4">
+                                            <h5 class="mt-0 mb-1"><?= $tt->nama ?></h5>
+                                            <p class="font-weght-lighter"><?= $tt->kelas ?></p>
+                                        </div>
+                                    </li>
+                                    <?php endforeach; ?>
+                                    <!-- <li class="media">
                                         <h5 class="pt-4 ml-md-5 ml-sm-1 mr-3">#1</h5>
-                                        <img src="<?= base_url('') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
+                                        <img src="<?= base_url('public/assets/img/dinda.jpg') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
                                         <div class="media-body pt-4">
                                             <h5 class="mt-0 mb-1">Dinda Rahayu</h5>
                                             <p class="font-weght-lighter">XII Pariwisata</p>
@@ -196,7 +206,7 @@
                                     </li>
                                     <li class="media">
                                         <h5 class="pt-4 ml-md-5 ml-sm-1 mr-3">#2</h5>
-                                        <img src="<?= base_url('') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
+                                        <img src="<?= base_url('public/assets/img/cewe.jpg') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
                                         <div class="media-body pt-4">
                                             <h5 class="mt-0 mb-1">Auliya Damaiyanti</h5>
                                             <p class="font-weght-lighter">XII Multimedia</p>
@@ -204,25 +214,35 @@
                                     </li>
                                     <li class="media">
                                         <h5 class="pt-4 ml-md-5 ml-sm-1 mr-3">#3</h5>
-                                        <img src="<?= base_url('') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
+                                        <img src="<?= base_url('public/assets/img/cewe-1.jpg') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
                                         <div class="media-body pt-4">
                                             <h5 class="mt-0 mb-1">Adinda Khalisa</h5>
                                             <p class="font-weght-lighter">XI Pariwisata</p>
                                         </div>
-                                    </li>
+                                    </li> -->
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div class="col col-md-5 col-sm-12 pb-3">
-                        <div class="card bg-danger">
+                        <div class="card background-danger">
                             <div class="card-body text-white">
                                 <h4 class="card-title text-uppercase text-center">Terendah</h4>
 
                                 <ul class="list-unstyled">
+                                    <?php foreach ($terendah as $i => $tr) : ?>
                                     <li class="media">
+                                        <h5 class="pt-4 ml-md-5 ml-sm-1 mr-3">#<?= ($i + 1) ?></h5>
+                                        <img src="<?= base_url($tr->foto) ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
+                                        <div class="media-body pt-4">
+                                            <h5 class="mt-0 mb-1"><?= $tr->nama ?></h5>
+                                            <p class="font-weght-lighter"><?= $tr->kelas ?></p>
+                                        </div>
+                                    </li>
+                                    <?php endforeach; ?>
+                                    <!-- <li class="media">
                                         <h5 class="pt-4 ml-md-5 ml-sm-1 mr-3">#1</h5>
-                                        <img src="<?= base_url('') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
+                                        <img src="<?= base_url('public/assets/img/cowo.jpg') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
                                         <div class="media-body pt-4">
                                             <h5 class="mt-0 mb-1">Ahmad Rauli</h5>
                                             <p class="font-weght-lighter">X Multimedia</p>
@@ -230,7 +250,7 @@
                                     </li>
                                     <li class="media">
                                         <h5 class="pt-4 ml-md-5 ml-sm-1 mr-3">#2</h5>
-                                        <img src="<?= base_url('') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
+                                        <img src="<?= base_url('public/assets/img/cowo-1.jpg') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
                                         <div class="media-body pt-4">
                                             <h5 class="mt-0 mb-1">Ananda Suprianto</h5>
                                             <p class="font-weght-lighter">XII Multimedia</p>
@@ -238,12 +258,12 @@
                                     </li>
                                     <li class="media">
                                         <h5 class="pt-4 ml-md-5 ml-sm-1 mr-3">#1</h5>
-                                        <img src="<?= base_url('') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
+                                        <img src="<?= base_url('public/assets/img/cowo-2.jpg') ?>" alt="" class="rounded-circle bg-light mr-3 mb-3" width="100px" height="100px">
                                         <div class="media-body pt-4">
                                             <h5 class="mt-0 mb-1">Aji Priyatna</h5>
                                             <p class="font-weght-lighter">X Pariwisata</p>
                                         </div>
-                                    </li>
+                                    </li> -->
                                 </ul>
                             </div>
                         </div>
@@ -297,13 +317,13 @@
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <button type="submit" class="btn btn-success btn-block bt-lg">
+                                                            <button type="submit" class="btn background-success btn-block bt-lg">
                                                                 <h5>Kirim Pesan</h5>
                                                             </button>
                                                         </div>
                                                     </form>
                                                 </div>
-                                                <div class="col-md-3 col-sm-12 p-3 bg-success text-white">
+                                                <div class="col-md-3 col-sm-12 p-3 background text-white">
                                                     <h5 class="card-title">Info Kontak</h5>
                                                     <div class="row">
                                                         <div class="col-2 text-center">
@@ -347,7 +367,7 @@
             </div>
         </section>
 
-        <span class="back-to-top invisible fixed-bottom bg-success shadow rounded-circle m-2 my-5 px-3 py-2 float-right">
+        <span class="back-to-top invisible fixed-bottom btn-bg-custom shadow rounded-circle m-2 my-5 px-3 py-2 float-right">
             <a href="#" class="text-white">
                 <i class="fas fa-angle-up fa-2x"></i>
             </a>
@@ -365,10 +385,6 @@
     <script src="<?= base_url('public/assets/js/core/jquery.3.2.1.min.js') ?>"></script>
     <!-- Bootstrap JS -->
     <script src="<?= base_url('public/assets/js/core/bootstrap.min.js') ?>"></script>
-    <!-- Devrama Slider -->
-    <script src="<?= base_url('public/assets/js/plugin/devrama-slider/jquery.devrama.slider.min.js') ?>"></script>
-    <!-- AOS -->
-    <script src="<?= base_url('public/assets/js/plugin/aos/dist/aos.js') ?>"></script>
     <!-- Custom JS -->
     <script src="<?= base_url('public/assets/js/custom_front.js') ?>"></script>
 </body>

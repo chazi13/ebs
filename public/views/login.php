@@ -16,14 +16,17 @@
     <title>Login | E-Banking Sekolah</title>
 </head>
 <div class="wrapper">
-    <div class="container pt-5">
+    <div class="col-10 offset-1 pt-5 pb-5">
         <div class="col-md-12 col-sm-12">
-            <div class="card shadow mt-5 rounded-lg">
+            <div class="card shadow mt-4 rounded-lg border-0 ">
                 <div class="row">
-                    <div class="col-md-8 pr-1">
-                        <img src="<?= base_url('public/assets/img/purple-bg.png') ?>" alt="" width="100%">
+                    <div class="col-md-8 px-0 overlay-img">
+                        <img src="<?= base_url('public/assets/img/banner-ini.jpg') ?>" alt="" style="object-fit: cover;" width="100%">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 pl-0">
+                        <div class="position-relative">
+                            <a href="<?= base_url() ?>" class="btn btn-danger rounded-0"><i class="fa fa-home"></i></a>
+                        </div>
                         <form id="login-form" action="<?= base_url('login/auth_user') ?>" method="post">
                             <div class="card-body">
                                 <h3 class="card-title">Masuk</h3>
@@ -38,7 +41,7 @@
                                 </div>
 
                                 <div class="form-group pt-3">
-                                    <button type="submit" class="btn btn-block btn-success mb-2">Login</button>
+                                    <button type="submit" class="btn btn-block btn-rounded background border-0 btn-success mb-2">Login</button>
                                     Belum punya akun? <a href="<?= base_url('daftar/pilih') ?>">Daftar Sekarang!</a>
                                 </div>
                             </div>

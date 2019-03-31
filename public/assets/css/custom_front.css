@@ -21,15 +21,79 @@ html {
     bottom: -.75rem;
     right: 0;
 }
+ 
+.navbar-teal .nav-link, .navbar-teal .nav-link:focus {
+    color: #ffffff !important; 
+}
+
+.overlay-img {
+    position: relative;
+}
+
+.overlay-img::after {
+    content: '';
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    position: absolute;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.beranda {
+    /*margin-right: 12px;*/
+    position: absolute;
+}
+
+.ini a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.background{
+    background: linear-gradient(to right, #00c2b8, #00db8e);
+    color: #ffffff;
+}
+
+.btn-bg-custom {
+    background-color: rgba(2, 72, 68, .85);
+}
+
+.background-1 {
+    background-color: #ebeeef;
+}
+
+.background-danger {
+    background: linear-gradient(to right, #dc1f31, #da16a7);
+}
+
+.background-success {
+    background-color: #00c2b8;
+    color: #ffffff;
+}
+
+.uppercase {
+    padding-top: 5px;
+}
+
+.banner-title {
+    font-weight: bolder;
+}
+
+.banner-content {
+    font-weight: 400;
+    font-size: 20px;
+}
 
 header .bg-image {
-    background-image: url('../img/michael-longmire-681745-unsplash.jpg');
+    background-image: url('../img/banner.jpg');
     background-size: 70%;
-    background-position-x: 95%;
+    background-position-x: 100%;
     background-position-y: bottom;
     background-repeat: no-repeat;
-    min-height: 80vh;
-    max-height: 85vh;
+    min-height: 95vh;
+    max-height: 100vh;
 }
 
 .banner-title {
@@ -75,7 +139,7 @@ header .bg-image {
     width: 100%;
     height: 100%;
     top: 0;
-    background-color: rgba(67, 20, 96, .85);
+    background-color: rgba(2, 72, 68, .85);
 }
 
 p.big-font {
@@ -126,6 +190,10 @@ p.big-font {
 
 .hover-animate:hover {
     text-decoration: none !important;
+}
+
+.hover-animate.shadow-animate:hover {
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0,.15) !important;
 }
 
 @media screen and (max-width: 425px) {
