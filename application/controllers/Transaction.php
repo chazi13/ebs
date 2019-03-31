@@ -42,24 +42,28 @@ class Transaction extends CI_Controller
     {
         $post = $this->input->post();
 
-        $this->check_saldo($post['user_id'], $post['nominal']);
+        $check = $this->check_saldo($post['user_id'], $post['nominal']);
+        if ($check) {
+            $data_transaction = [
+                'total' => $post['jml_tabung'],
+                'jenis' => 'isi saldo',
+                'keterangan' => 'Menabung sebesar ' . rupiah($post['jml_tabung']) . ' pada hari ' . tgl($this->date),
+                'status' => 'Selesai',
+                'user_id' => $post['user_id']
+            ];
 
-        $data_transaction = [
-            'total' => $post['jml_tabung'],
-            'jenis' => 'isi saldo',
-            'keterangan' => 'Menabung sebesar ' . rupiah($post['jml_tabung']) . ' pada hari ' . tgl($this->date),
-            'status' => 'Selesai',
-            'user_id' => $post['user_id']
-        ];
-
-        $result = $this->insert_new_transaction('IS', $data_transaction);
-        if ($result) {
-            $msg = 'Tabungan Berhasil Ditambahkan';
-            $msg .= $this->update_saldo($post['user_id'], $post['jml_tabung'], 'plus');
-            alert_content('success', 'Berhasil Melakukan Transaksi', $msg);
+            $result = $this->insert_new_transaction('IS', $data_transaction);
+            if ($result) {
+                $msg = 'Tabungan Berhasil Ditambahkan';
+                $msg .= $this->update_saldo($post['user_id'], $post['jml_tabung'], 'plus');
+                alert_content('success', 'Berhasil Melakukan Transaksi', $msg);
+            } else {
+                $msg = 'Tabungan Gagal Ditambahkan';
+                alert_content('error', 'Gagal Melakukan Transaksi', $msg);
+            }
         } else {
-            $msg = 'Tabungan Gagal Ditambahkan';
-            alert_content('error', 'Gagal Melakukan Transaksi', $msg);
+            $msg = 'Saldo Kurang';
+            alert_content('error', 'Transaksi Gagal', $msg);
         }
     }
 
@@ -73,33 +77,42 @@ class Transaction extends CI_Controller
             $total += $post['subtotal'][$i];
         }
 
-        $data_transaction = [
-            'total' => $total,
-            'jenis' => 'beli',
-            'keterangan' => 'Beli ' . $post['jenis'] . ' pada hari ' . tgl($this->date),
-            'status' => 'Pending',
-            'user_id' => $this->session->userdata('user_id')
-        ];
-        
-        $result = $this->insert_new_transaction('BL', $data_transaction);
-        if ($result) {
-            for ($i=0; $i <= count($post['item_id']) - 1; $i++) { 
-                $data_order = [
-                    'tgl_order' => $this->date,
-                    'jml_order' => $post['jml_order'][$i],
-                    'subtotal' => $post['subtotal'][$i],
-                    'item_id' => $post['item_id'][$i],
-                    'transaction_id' => $this->transaction_id
-                ];
+        $check = $this->check_saldo($this->session->userdata('user_id'), $total);
+        if ($check) {
+            $data_transaction = [
+                'total' => $total,
+                'jenis' => 'beli',
+                'keterangan' => 'Beli ' . $post['jenis'] . ' pada hari ' . tgl($this->date),
+                'status' => 'Pending',
+                'user_id' => $this->session->userdata('user_id')
+            ];
 
-                $this->order->insert_new_order($data_order);
+            $result = $this->insert_new_transaction('BL', $data_transaction);
+            if ($result) {
+                for ($i=0; $i <= count($post['item_id']) - 1; $i++) {
+                    $data_order = [
+                        'tgl_order' => $this->date,
+                        'jml_order' => $post['jml_order'][$i],
+                        'subtotal' => $post['subtotal'][$i],
+                        'item_id' => $post['item_id'][$i],
+                        'toko_id' => $post['toko_id'],
+                        'transaction_id' => $this->transaction_id
+                    ];
+
+                    $this->order->insert_new_order($data_order);
+                }
+
+                $this->update_saldo($this->session->userdata('user_id'), $total, 'min');
+                $this->update_saldo($post['user_toko_id'], $total, 'plus');
+                $msg = 'Pesanan Telah Dikirim!';
+                alert_content('success', 'Berhasil Melakukan Transaksi', $msg, 'reload');
+            } else {
+                $msg = 'Server Error';
+                alert_content('error', 'Gagal Melakukan Transaksi', $msg);
             }
-
-            $this->update_saldo($this->session->userdata('user_id'), $total, 'min');
-            $this->update_saldo($post['user_toko_id'], $total, 'plus');
-            echo 'Pesanan Telah Dikirim!';
         } else {
-            echo 'Gagal Melakukan Transaksi';
+            $msg = 'Saldo Kurang';
+            alert_content('error', 'Transaksi Gagal', $msg);
         }
     }
 
@@ -108,105 +121,132 @@ class Transaction extends CI_Controller
         $this->load->model('Prints_Model', 'prints');
         $this->load->helper('Upload');
         $post = $this->input->post();
+        $total = $post['jml_print'] * $post['harga_satuan'];
+        $check = $this->check_saldo($this->session->userdata('user_id'), $total);
 
-        $total = $post['jml_lembar'] * $post['jml_print'] * $post['harga_satuan'];
-
-        $data_transaction = [
-            'total' => $total,
-            'jenis' => 'print',
-            'keterangan' => 'Print ' . $post['nama_file'] . ' sejumlah ' . $post['jml_lembar'] . ' lembar sebanyak' . $post['jml_print'] . ' pada hari ' . tgl($this->date),
-            'status' => 'Pending',
-            'user_id' => $this->session->userdata('user_id')
-        ];
-        
-        $result = $this->insert_new_transaction('PR', $data_transaction);
-        if ($result) {
-            $data_print = [
-                'nama_file' => $post['nama_file'],
-                'jml_print' => $post['jml_print'],
-                'jml_lembar' => $post['jml_lembar'],
-                'jenis' => $post['jenis']
+        if ($check) {
+            $data_transaction = [
+                'total' => $total,
+                'jenis' => 'print',
+                'keterangan' => 'Print ' . $post['nama_file'] . ' sebanyak' . $post['jml_print'] . ' pada hari ' . tgl($this->date),
+                'status' => 'Pending',
+                'user_id' => $this->session->userdata('user_id')
             ];
-            
-            if (@$_FILES['file'] && @$_FILES['file']['error'] == 0) {
-                $filename = strtolower(str_replace(' ', '_', $post['nama_file']));
-                $user_dir = user_dir($this->session->userdata('username'), $this->session->userdata('level'), 'print\\');
-                $data_print['file'] = upload_file('file', $user_dir, $filename);
 
-                if (is_array($data_print['file'])) {
-                    echo $data_print['file']['errors'];
-                    exit();
+            $result = $this->insert_new_transaction('PR', $data_transaction);
+            if ($result) {
+                $data_print = [
+                    'nama_file' => $post['nama_file'],
+                    'jml_print' => $post['jml_print'],
+                    'jml_lembar' => 1,
+                    'jenis' => $post['jenis']
+                ];
+
+                if (@$_FILES['file'] && @$_FILES['file']['error'] == 0) {
+                    $filename = strtolower(str_replace(' ', '_', $post['nama_file']));
+                    $user_dir = user_dir($this->session->userdata('username'), $this->session->userdata('level'), 'print\\');
+                    $data_print['file'] = upload_file('file', $user_dir, $filename);
+
+                    if (is_array($data_print['file'])) {
+                        echo $data_print['file']['errors'];
+                        exit();
+                    }
                 }
-            }
-            $data_print['transaction_id'] = $this->transaction_id;
-            
-            $result2 = $this->prints->insert_new_print($data_print);
-            if ($result2) {
-                $this->update_saldo($this->session->userdata('user_id'), $total, 'min');
-                $this->update_saldo($post['user_print_id'], $total, 'plus');
-                echo 'Pesanan Print Telah Dikirim';
+                $data_print['transaction_id'] = $this->transaction_id;
+
+                $result2 = $this->prints->insert_new_print($data_print);
+                if ($result2) {
+                    $this->update_saldo($this->session->userdata('user_id'), $total, 'min');
+                    $this->update_saldo($post['user_print_id'], $total, 'plus');
+                    $msg = 'Pesanan Print Telah Dikirim';
+                    alert_content('success', 'Melakukan Transaksi', $msg, 'reload');
+                } else {
+                    $msg = 'Gagal Mengirim Pesanan!';
+                    alert_content('error', 'Melakukan Transaksi', $msg);
+                }
             } else {
-                echo 'Gagal Mengirim Pesanan!';
+                $msg = 'Server Error';
+                alert_content('error', 'Melakukan Transaksi', $msg);
             }
         } else {
-            echo 'Gagal Melakukan Transaksi';
+            $msg = 'Saldo Kurang';
+            alert_content('error', 'Transaksi Gagal', $msg);
         }
     }
 
     public function transfer()
     {
         $this->load->model('Transfers_Model', 'transfers');
-        $post = $this->post->input();
-        $data_transaction = [
-            'total' => $post['jml_transfer'],
-            'jenis' => 'transfer',
-            'keterangan' => 'Transfer Ke ' . $post['nama_penerima'] . ' sejumlah ' . rupiah($post['jml_transfer']) . ' pada hari ' . tgl($this->date),
-            'status' => 'Selesai',
-            'user_id' => $this->session->userdata('user_id')
-        ];
+        $post = $this->input->post();
         
-        $result = $this->insert_new_transaction('TF', $data_transaction);
-        if ($result) {
-            
-            $data_transfer = [
-                'jml_transfer' => $post['jml_transfer'],
-                'nama_pengirim' => $post['nama_pengirim'],
-                'nama_penerima' => $post['nama_penerima'],
-                'id_pengirim' => $post['id_pengirim'],
-                'id_penerima' => $post['id_penerima'],
-                'transaction_id' => $this->transaction_id
+        $check = $this->check_saldo($this->session->userdata('user_id'), $post['jml_transfer']);
+        if ($check) {
+            $data_transaction = [
+                'total' => $post['jml_transfer'],
+                'jenis' => 'transfer',
+                'keterangan' => 'Transfer Ke ' . $post['nama_penerima'] . ' sejumlah ' . rupiah($post['jml_transfer']) . ' pada hari ' . tgl($this->date),
+                'status' => 'Selesai',
+                'user_id' => $this->session->userdata('user_id')
             ];
-            
-            $result2 = $this->transfers->insert_new_transfer($data_transfer);
-            if ($result2) {
-                $this->update_saldo($this->session->userdata('user_id'), $post['jml_transfer'], 'min');
-                $this->update_saldo($post['user_penerima'], $post['jml_transfer'], 'plus');
-                echo "Berhasil mentransfer!";
+
+            $result = $this->insert_new_transaction('TF', $data_transaction);
+            if ($result) {
+
+                $data_transfer = [
+                    'jml_transfer' => $post['jml_transfer'],
+                    'nama_pengirim' => $this->session->userdata('nama'),
+                    'nama_penerima' => $post['nama_penerima'],
+                    'id_pengirim' => $this->session->userdata('user_id'),
+                    'id_penerima' => $post['id_penerima'],
+                    'transaction_id' => $this->transaction_id
+                ];
+
+                $result2 = $this->transfers->insert_new_transfer($data_transfer);
+                if ($result2) {
+                    $this->update_saldo($this->session->userdata('user_id'), $post['jml_transfer'], 'min');
+                    $this->update_saldo($post['id_penerima'], $post['jml_transfer'], 'plus');
+                    $msg = "Berhasil mentransfer!";
+                    alert_content('success', 'Melakukan Transaksi', $msg, 'reload');
+                } else {
+                    $msg = "Gagal Mentransfer!";
+                    alert_content('error', 'Melakukan Transaksi', $msg);
+                }
             } else {
-                echo "Gagal Mentransfer!";
+                $msg = 'Server Error';
+                alert_content('error', 'Melakukan Transaksi', $msg);
             }
         } else {
-            echo 'Gagal Melakukan Transaksi';
+            $msg = 'Saldo Kurang';
+            alert_content('error', 'Melakukan Transaksi', $msg);
         }
     }
 
     public function pay_spp()
     {
         $post = $this->post->input();
-        $data_transaction = [
-            'total' => $post['total'],
-            'jenis' => 'bayar spp',
-            'keterangan' => 'Bayar SPP Bulan ' . $post['bulan'] . ' sejumlah ' . rupiah($post['total']) . ' pada hari ' . tgl($this->date),
-            'status' => 'Selsai',
-            'user_id' => $this->session->userdata('user_id')
-        ];
+        $check = $this->check_saldo($this->session->userdata('user_id'), $post['total']);
+        if ($check) {
+            $data_transaction = [
+                'total' => $post['total'],
+                'jenis' => 'bayar spp',
+                'keterangan' => 'Bayar SPP Bulan ' . $post['bulan'] . ' sejumlah ' . rupiah($post['total']) . ' pada hari ' . tgl($this->date),
+                'status' => 'Selsai',
+                'user_id' => $this->session->userdata('user_id')
+            ];
 
-        $result = $this->insert_new_transaction('BS', $data_transaction);
-        if ($result) {
-            $this->update_saldo($this->session->userdata('user_id'), $post['total'], 'min');
-            $this->update_saldo(2, $post['total'], 'plus');
+            $result = $this->insert_new_transaction('BS', $data_transaction);
+            if ($result) {
+                $this->update_saldo($this->session->userdata('user_id'), $post['total'], 'min');
+                $this->update_saldo(2, $post['total'], 'plus');
+                $msg = 'SPP Telah Dibayarkan';
+                alert_content('success', 'Berhasil Melakukan Transaksi', $msg);
+            } else {
+                $msg = 'Server Error';
+                alert_content('error', 'Gagal Melakukan Transaksi', $msg);
+            }
         } else {
-            echo 'Gagal Melakukan Transaksi';
+            $msg = 'Saldo Kurang';
+            alert_content('error', 'Gagal Melakukan Transaksi', $msg);
         }
     }
 
@@ -234,9 +274,9 @@ class Transaction extends CI_Controller
             if ($this->session->userdata('user_id') == $user_id) {
                 $this->session->set_userdata(['saldo' => $new_user_saldo['saldo']]);
             }
-            return '<br>Saldo Berhasil diupdate';
+            return 'Saldo Berhasil diupdate';
         } else {
-            return '<br>Saldo Gagal diupdate';
+            return 'Saldo Gagal diupdate';
         }
     }
 
@@ -254,12 +294,18 @@ class Transaction extends CI_Controller
         return false;
     }
 
-    // public function confirm_transaction()
-    // {
-    //     $transaction_id = $this->uri->segment(3);
-    //     $status_change = $this->uri->segment(4);
-
+    public function confirm()
+    {
+        $transaction_id = $this->uri->segment(3);
         
-    // }
+        $result = $this->transaction->update_transaction(['status' => 'selesai'], $transaction_id);
+        if ($result) {
+            $msg =  'Pesanan Telah Dikonfirmasi!';
+            alert_content('success', 'Berhasil', $msg, 'reload');
+        } else {
+            $msg =  'Pesanan Gagal Dikonfirmasi!';
+            alert_content('error', 'Gagal', $msg, 'reload');
+        }
+    }
 }
 
