@@ -12,7 +12,7 @@ class Users_Model extends CI_Model
 
     public function get_all_users()
     {
-        $this->db->select(['user_id', 'nama', 'email', 'username', 'level']);
+        $this->db->select(['user_id', 'nama', 'email', 'username', 'level', 'foto', 'saldo', 'kelas']);
         $data_return = $this->db->get('users')->result();
         return $data_return;
     }
@@ -30,6 +30,17 @@ class Users_Model extends CI_Model
     {
         $this->db->where('level', 'siswa');
         return $this->get_all_users();
+    }
+
+    public function get_user_saldo($cond)
+    {
+        if ($cond == 'tertinggi') {
+            $this->db->order_by('saldo', 'DESC');
+        } elseif ($cond == 'terendah') {
+            $this->db->order_by('saldo', 'ASC');
+        }
+        $this->db->limit(2, 0);
+        return $this->get_siswa();
     }
 
     public function get_guru()
