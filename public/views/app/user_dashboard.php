@@ -25,7 +25,7 @@
                     </div>
                     <div class="col-7 col-stats">
                         <div class="numbers">
-                            <h4 class="text-white">Jajan Hari Ini</h4>
+                            <h4 class="text-white">Pengeluaran Hari Ini</h4>
                             <h1 class="text-white"><?= rupiah($data['kre']) ?></h1>
                         </div>
                     </div>
@@ -58,7 +58,7 @@
         <div class="card shadow">
             <div class="card-body text-center">
                 <img src="<?= base_url('public/assets/img/ice-cream-shop.png') ?>" alt="" width="30%">
-                <h3 class="text-uppercase mt-2">Jajan</h3>
+                <h3 class="text-uppercase mt-2">Kantin</h3>
                 <p>Layanan EBS untuk memesan dan membeli jajanan di kantin</p>
             </div>
         </div>
