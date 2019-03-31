@@ -46,6 +46,8 @@ class Auth_Checked
         
         if (is_string($condition) && stristr('!login', $condition)) {
             $return = !$this->is_logged_in();
+        } if (is_string($condition) && stristr('login', $condition)) {
+            $return = $this->is_logged_in();
         } else {
             if ($this->is_logged_in()) {
                 $return = $this->is_level($condition, true);
