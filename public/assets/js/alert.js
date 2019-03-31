@@ -35,14 +35,14 @@ let ajax = function (url) {
     });
 };
 
-let alertConfirm = function(url) {
+let alertConfirm = function(url, condition) {
     swal({
         title: 'Konfirmasi',
-        text: 'Yakin Hapus Item?',
+        text: 'Yakin ' + condition + ' Item?',
         icon: 'info',
         buttons: {
             confirm: {
-                text: 'Ya, Hapus Item',
+                text: 'Ya, ' + condition + ' Item',
                 className: 'text-center btn btn-primary'
             }, 
             cancel: {

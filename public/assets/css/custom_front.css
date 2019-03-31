@@ -9,7 +9,6 @@ html {
 .nav-item.active {
     position: relative;
     color: #ffffff;
-    /* background-color: rgba(0, 0, 0, .3); */
 }
 
 .nav-item.active::after {
@@ -103,6 +102,30 @@ p.big-font {
 
 .vw-100 {
     max-width: 100vw;
+}
+
+.img-animate {
+    position: relative;
+    /* overflow: hidden; */
+}
+
+.img-animate, .img-animate img {
+    transition: .4s ease;
+}
+
+.hover-animate:hover .img-animate {
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0,.15) !important;
+}
+
+.hover-animate:hover img {
+    transform: scale(1.1);
+    border-color: #00c2b8;
+    border-width: 3px;
+    border-style: solid;
+}
+
+.hover-animate:hover {
+    text-decoration: none !important;
 }
 
 @media screen and (max-width: 425px) {
