@@ -62,6 +62,13 @@ $route['user/(:any)/edit/(:num)'] = 'users/edit/$1/$2';
 $route['toko/item/tambah'] = 'toko/add_item';
 $route['toko/item/edit/(:num)'] = 'toko/edit_item/$1';
 $route['toko/item/hapus/(:num)'] = 'toko/hapus_item/$1';
+$route['kantin'] = 'toko/kantin';
+$route['kantin/(:any)'] = 'toko/detail/$1';
+$route['atk'] = 'toko/detail';
+$route['seragam'] = 'toko/detail';
+
+// Tabungan
+$route['tabungan'] = 'saldo/tabungan';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
