@@ -67,12 +67,30 @@ class Dashboard extends CI_Controller
 
     public function user()
     {
-        return ;
+        $this->load->model('Transaction_Model', 'transaction');
+        $data['deb'] = 0;
+        $data['kre'] = 0;
+        
+        $deb = $this->transaction->get_deb_today($this->session->userdata('user_id'));
+        $kre = $this->transaction->get_kre_today($this->session->userdata('user_id'));
+
+        foreach ($deb as $d) {
+            $data['deb'] += $d->total;
+        }
+
+        foreach ($kre as $k) {
+            $data['kre'] += $k->total;
+        }
+
+        return $data;
     }
 
     private function bmt()
     {
-        
+        $this->load->model('Transaction_Model', 'transaction');
+        $data['transaction'] = $this->transaction->get_all_transaction();
+
+        return $data;
     }
 
     private function kantin()
