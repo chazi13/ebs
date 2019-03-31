@@ -19,6 +19,19 @@
     <?php $foto = $this->session->userdata('foto') ? $this->session->userdata('foto') : 'public/assets/img/blank_user.png'; ?>
 </head>
 
+<style>
+    .table.table-custom-padding th,
+    .table.table-custom-padding td {
+        padding: 10px !important;
+    }
+
+    .inline-input {
+        border: none;
+        border-bottom: solid 1px;
+        display: flex;
+    }
+</style>
+
 <body>
     <div class="wrapper">
         <header class="main-header">
@@ -158,7 +171,7 @@
                     <!-- End User Panel -->
                     <ul class="nav nav-primary">
                         <li class="nav-item <?= @$dash_active ?>">
-                            <a href="<?= base_url() ?>">
+                            <a href="<?= base_url('dashboard') ?>">
                                 <i class="fas fa-home"></i>
                                 <p>Dashboard</p>
                             </a>
@@ -201,14 +214,15 @@
                                 <p>Tarik Tunai</p>
                             </a>
                         </li>
-                        <?php elseif ($this->auth->is_level(['seragam', 'atk', 'kantin'])) : ?>
+                        <?php elseif ($this->auth->is_level(['seragam', 'atk', 'kantin', 'print'])) : ?>
+                        <?php if ($this->auth->is_level(['seragam', 'atk', 'kantin'])) : ?>
                         <li class="nav-item <?= @$item_active ?>">
                             <a href="<?= base_url('toko/item') ?>">
                                 <i class="fas fa-list-alt"></i>
                                 <p>Item</p>
                             </a>
                         </li>
-                        <?php elseif ($this->auth->is_level(['seragam', 'atk', 'kantin', 'print'])) : ?>
+                        <?php endif; ?>
                         <li class="nav-item <?= @$pesanan_active ?>">
                             <a href="<?= base_url('pesanan/') ?>">
                                 <i class="fas fa-list-alt"></i>
@@ -216,50 +230,44 @@
                             </a>
                         </li>
                         <?php elseif ($this->auth->is_level(['siswa', 'guru'])) : ?>
-                        <li class="nav-item">
-                            <a href="<?= base_url() ?>">
+                        <li class="nav-item <?= @$tabungan_active ?>">
+                            <a href="<?= base_url('tabungan') ?>">
                                 <i class="fas fa-book"></i>
                                 <p>Tabunganku</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item <?= @$transfer_active ?>">
                             <a href="<?= base_url('saldo/transfer') ?>">
                                 <i class="fas fa-exchange-alt"></i>
                                 <p>Transfer</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url() ?>">
+                        <li class="nav-item <?= @$kantin_active ?>">
+                            <a href="<?= base_url('kantin') ?>">
                                 <i class="fas fa-store"></i>
-                                <p>Jajan</p>
+                                <p>Kantin</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url() ?>">
+                        <li class="nav-item <?= @$atk_active ?>">
+                            <a href="<?= base_url('atk') ?>">
                                 <i class="fas fa-pencil-ruler"></i>
                                 <p>ATK</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url() ?>">
+                        <li class="nav-item <?= @$printing_active ?>">
+                            <a href="<?= base_url('printing') ?>">
                                 <i class="fas fa-print"></i>
                                 <p>Print</p>
                             </a>
                         </li>
-                            <?php if ($this->auth->is_level('siswa')) : ?>
-                            <li class="nav-item">
-                                <a href="<?= base_url() ?>">
-                                    <i class="fas fa-user-tie"></i>
-                                    <p>Seragam</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="<?= base_url() ?>">
-                                    <i class="fas fa-receipt"></i>
-                                    <p>SPP</p>
-                                </a>
-                            </li>
-                            <?php endif; ?>
+                        <?php if ($this->auth->is_level('siswa')) : ?>
+                        <li class="nav-item <?= @$seragam_active ?>">
+                            <a href="<?= base_url('seragam') ?>">
+                                <i class="fas fa-user-tie"></i>
+                                <p>Seragam</p>
+                            </a>
+                        </li>
+                        <?php endif; ?>
                         <?php endif; ?>
                     </ul>
                 </div>
@@ -305,6 +313,9 @@
     <!-- jQuery UI -->
     <script src="<?= base_url('public/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js') ?>"></script>
     <script src="<?= base_url('public/assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js') ?>"></script>
+
+    <!-- Chart JS -->
+    <script src="<?= base_url('public/assets/js/plugin/chart.js/chart.min.js') ?>"></script>
 
     <!-- jQuery Scrollbar -->
     <script src="<?= base_url('public/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js') ?>"></script>
@@ -368,6 +379,13 @@
                 $(this).val(nominal);
             });
 
+            $('.select-user').change(function() {
+                let val = $(this).val();
+                let nama = $(this).find('[value="' + val + '"]').attr('data-nama');
+
+                $('#nama_penerima').val(nama);
+            });
+
             $('.basic-form').submit(function() {
                 let form_data = new FormData(this);
                 let url_action = $(this).attr('action');
@@ -380,10 +398,6 @@
                     form_data.append('jml_tabung', jml_tabung);
                 }
 
-                for (var value of form_data.values()) {
-                    console.log(value);
-                }
-
                 $.ajax({
                     url: url_action,
                     method: 'POST',
@@ -391,6 +405,7 @@
                     processData: false,
                     data: form_data,
                     success: function(result) {
+                        console.log(result);
                         alertResponse(result);
                     }
                 })
@@ -410,25 +425,30 @@
 
                 $(this).serialize();
 
-                // $.ajax({
-                //     url: url_action,
-                //     contentType: false,
-                //     processData: false,
-                //     data: form_data,
-                //     type: 'post',
-                //     success: function(result) {
-                //         alertResponse(result);
-                //     }
-                // });
+                $.ajax({
+                    url: url_action,
+                    contentType: false,
+                    processData: false,
+                    data: form_data,
+                    type: 'post',
+                    success: function(result) {
+                        console.log(result);
+                        alertResponse(result);
+                    }
+                });
 
                 return false;
             });
 
             $('.alert-confirm').click(function() {
                 let url = $(this).attr('href');
+                alertConfirm(url, 'Hapus');
+                return false;
+            });
 
-                alertConfirm(url);
-
+            $('.alert-confirm-pesanan').click(function() {
+                let url = $(this).attr('href');
+                alertConfirm(url, 'Checklist');
                 return false;
             });
 
@@ -436,8 +456,177 @@
                 window.history.back();
             });
 
-            $('.datatable').DataTable();
+            $('.datatable').DataTable({
+                'info': false,
+            });
+
+            $('.card-item-list #DataTables_Table_0_length').parent().addClass('d-none').end();
+
+            let arrayBg = ['success', 'info', 'secondary', 'primary'];
+            let randBg = function() {
+                let index = Math.floor(Math.random() * 4);
+                return arrayBg[index];
+            }
+
+            $('.card-random-bg').each(function() {
+                $(this).addClass('bg-' + randBg());
+            });
+            $('.btn-random-bg').each(function() {
+                $(this).addClass('bg-' + randBg());
+            });
+
+            let iteration = 1;
+            let createRow = function(data) {
+                let row = $('<tr/>', {
+                    id: data.item_id
+                });
+                let columIteration = $('<td/>').text(iteration);
+                let columnItem = $('<td/>');
+                let columnQty = $('<td/>');
+                let columnSubtotal = $('<td/>');
+                let columnRemove = $('<td/>');
+                let inputItemId = $('<input>', {
+                    type: 'hidden',
+                    name: 'item_id[]',
+                    value: data.item_id
+                });
+                let inputHarga = $('<input>', {
+                    type: 'hidden',
+                    name: 'harga',
+                    value: data.harga_item
+                });
+                let inputJmlOrder = $('<input>', {
+                    type: 'number',
+                    name: 'jml_order[]',
+                    value: 1,
+                    'max': 10,
+                    'min': 0,
+                    'class': 'inline-input w-50 text-center float-left'
+                });
+                let minIcon = $('<i/>', {
+                    'href': 'javascript:void(0)',
+                    'class': 'fa fa-minus float-left mt-2 text-danger min',
+                    'style': 'cursor: pointer'
+                });
+                let plusIcon = $('<i/>', {
+                    'href': 'javascript:void(0)',
+                    'class': 'fa fa-plus float-left mt-2 text-primary plus',
+                    'style': 'cursor: pointer'
+                });
+                let inputSubtotal = $('<input>', {
+                    type: 'hidden',
+                    name: 'subtotal[]',
+                    value: data.harga_item,
+                    'class': 'inline-input'
+                });
+                let subtotal = $('<p/>', {
+                    'class': 'text-subtotal'
+                }).text('Rp. ' + formatRupiah(data.harga_item));
+                let remove = $('<i/>', {
+                    'href': 'javascript:void(0)',
+                    'class': 'fa fa-trash float-left mt-2 text-danger remove',
+                    'style': 'cursor: pointer',
+                    'data-id': data.item_id
+                });
+
+                // Column Iteration
+                $(columIteration).appendTo(row);
+                // Column Item
+                $(columnItem).text(data.nama_item.split('+').join(' '));
+                $(inputItemId).appendTo(columnItem);
+                $(inputHarga).appendTo(columnItem);
+                // Column Qty
+                $(minIcon).appendTo(columnQty);
+                $(inputJmlOrder).appendTo(columnQty);
+                $(plusIcon).appendTo(columnQty);
+                // Column Subtotal
+                $(subtotal).appendTo(columnSubtotal);
+                $(inputSubtotal).appendTo(columnSubtotal);
+                // Column Remove
+                $(remove).appendTo(columnRemove);
+                // Row
+                $(columnItem).appendTo(row);
+                $(columnQty).appendTo(row);
+                $(columnSubtotal).appendTo(row);
+                $(columnRemove).appendTo(row);
+
+                return row;
+            }
+
+            let updateJmlPesan = function(row, condition) {
+                let val = parseInt(row.find('[name="jml_order[]"]').val());
+                let harga = row.find('[name="harga"]').val();
+                let newVal = 0;
+
+                if (condition == 'plus') newVal = val + 1;
+                if (condition == 'min') newVal = val - 1;
+
+                let subtotal = newVal * harga;
+
+                row.find('[name="jml_order[]"]').val(newVal);
+                row.find('[name="subtotal[]"]').val(subtotal);
+                row.find('.text-subtotal').text('Rp. ' + formatRupiah(String(subtotal)));
+            }
+
+            $('.add-to-cart').click(function() {
+                let dataPlan = $(this).attr('data');
+                let dataDecode = decodeURIComponent(dataPlan);
+                let data = JSON.parse(dataDecode);
+                let row = $('tr#' + data.item_id);
+
+                if (row.length == 0) {
+                    let newRow = createRow(data);
+                    $('table.table-pesanan > tbody').append(newRow);
+                    iteration = iteration + 1;
+                } else {
+                    updateJmlPesan(row, 'plus');
+                }
+
+                return false;
+            });
+
+            $(document).on('click', '.min, .plus', function() {
+                let parent = $(this).parent().parent();
+                if ($(this).hasClass('plus')) updateJmlPesan(parent, 'plus');
+                if ($(this).hasClass('min')) updateJmlPesan(parent, 'min');
+            });
+
+            $(document).on('click', '.remove', function() {
+                let parent = $(this).parent().parent().remove();
+            });
+
+            $('.jenis-print').click(function() {
+                let val = $(this).val();
+                let harga = 500;
+                if (val == 'berwarna') {
+                    harga = 1000;
+                }
+                $('#harga-satuan').val(harga);
+            });
+
+            $('.detail-modal').click(function() {
+                let url = $(this).attr('href');
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    success: function(res) {
+                        $('#detail-pesanan').html(res);
+                    }
+                });
+            });
+
+            $(document).on('change', '#jml_lembar', function() {
+                let print = $('[name="jml_print"]').val();
+                let harga_satuan = $('[name="harga_satuan"]').val();
+                let lembar = $(this).val();
+                let total = print * harga_satuan * lembar;
+                $('.total').text(formatRupiah(String(total)));
+                $(['name="total"']).val(total);
+            });
         });
+
+        let multipleLineChart = document.getElementById('multipleLineChart').getContext('2d');
+        
     </script>
 </body>
 
