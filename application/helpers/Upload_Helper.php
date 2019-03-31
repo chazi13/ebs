@@ -42,7 +42,7 @@ function upload_file($file_input, $upload_path, $filename_prefix)
     $CI =& get_instance();
     $config = [
         'upload_path' => $upload_path,
-        'allowed_types' => 'doc|docx|xls|xlsx|pdf|ppt|pptx',
+        'allowed_types' => 'doc|docx|xls|xlsx|pdf|ppt|pptx|jpeg|jpg|png',
         'file_ext_tolower' => true,
         'file_name' => $filename_prefix . '_' . uniqid(),
         'max_filename' => 50
