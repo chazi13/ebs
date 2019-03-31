@@ -19,6 +19,10 @@
                     <label for="nominal">Nominal</label>
                     <div class="selectgroup selectgroup-pills">
                         <label class="selectgroup-item">
+                            <input type="radio" name="nominal" value="2000" class="selectgroup-input">
+                            <span class="selectgroup-button"><?= rupiah('2000') ?></span>
+                        </label>
+                        <label class="selectgroup-item">
                             <input type="radio" name="nominal" value="5000" class="selectgroup-input">
                             <span class="selectgroup-button"><?= rupiah('5000') ?></span>
                         </label>

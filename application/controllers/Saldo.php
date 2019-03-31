@@ -6,6 +6,7 @@ class Saldo extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('Users_Model', 'users');
     }
 
     public function push()
@@ -30,14 +31,31 @@ class Saldo extends CI_Controller
     {
         $data = $this->get_users();
         $data['title'] = 'Transfer';
-        $data['tarik_active'] = 'active';
+        $data['transfer_active'] = 'active';
 
-        return $this->template->load('app/template', 'app/saldo/tarik', $data);
+        return $this->template->load('app/template', 'app/saldo/transfer', $data);
+    }
+
+    public function tabungan()
+    {
+        $this->load->model('Transaction_Model', 'transaction');
+        $user_id = $this->session->userdata('user_id');
+        $user = $this->users->get_user_profile($user_id);
+
+        if ($user[0]->level == 'wali') {
+            $user_id = $user[0]->siswa_id;
+            $user = $this->users->get_user_profile($user_id);
+        }
+
+        $data['transaksi'] = $this->transaction->get_user_transaction($user_id);
+        $data['title'] = 'Tabungan';
+        $data['tabungan_active'] = 'active';
+
+        $this->template->load('app/template', 'app/saldo/tabungan', $data);
     }
 
     private function get_users()
     {
-        $this->load->model('Users_Model', 'users');
         $data['users']['siswa'] = $this->users->get_siswa();
         $data['users']['guru'] = $this->users->get_guru();
 
