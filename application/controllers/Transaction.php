@@ -9,8 +9,8 @@ class Transaction extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        
         $this->load->model('Transaction_Model', 'transaction');
-
         $this->date = date('Y-m-d H:i:s');
         $this->load->model('Users_Model', 'users');
     }
@@ -29,6 +29,13 @@ class Transaction extends CI_Controller
 
         $result = $this->insert_new_transaction('IS', $data_transaction);
         if ($result) {
+            $data_notif = [
+                'jml_tabung' => $post['jml_tabung'],
+                'id_pengirim' => $this->session->userdata('user_id'),
+                'id_penerima' => $post['user_id']
+            ];
+            $this->notif->add_notif('isi', $data_notif);
+
             $msg = 'Tabungan Berhasil Ditambahkan';
             $msg .= $this->update_saldo($post['user_id'], $post['jml_tabung'], 'plus');
             alert_content('success', 'Berhasil Melakukan Transaksi', $msg);
@@ -45,17 +52,24 @@ class Transaction extends CI_Controller
         $check = $this->check_saldo($post['user_id'], $post['nominal']);
         if ($check) {
             $data_transaction = [
-                'total' => $post['jml_tabung'],
-                'jenis' => 'isi saldo',
-                'keterangan' => 'Menabung sebesar ' . rupiah($post['jml_tabung']) . ' pada hari ' . tgl($this->date),
+                'total' => $post['nominal'],
+                'jenis' => 'tarik tunai',
+                'keterangan' => 'Tarik tunai sebesar ' . rupiah($post['nominal']) . ' pada hari ' . tgl($this->date),
                 'status' => 'Selesai',
                 'user_id' => $post['user_id']
             ];
 
             $result = $this->insert_new_transaction('IS', $data_transaction);
             if ($result) {
+                $data_notif = [
+                    'nominal' => $post['nominal'],
+                    'id_pengirim' => $this->session->userdata('user_id'),
+                    'id_penerima' => $post['user_id']
+                ];
+                $this->notif->add_notif('tarik', $data_notif);
+
                 $msg = 'Tabungan Berhasil Ditambahkan';
-                $msg .= $this->update_saldo($post['user_id'], $post['jml_tabung'], 'plus');
+                $msg .= $this->update_saldo($post['user_id'], $post['nominal'], 'min');
                 alert_content('success', 'Berhasil Melakukan Transaksi', $msg);
             } else {
                 $msg = 'Tabungan Gagal Ditambahkan';
@@ -63,7 +77,7 @@ class Transaction extends CI_Controller
             }
         } else {
             $msg = 'Saldo Kurang';
-            alert_content('error', 'Transaksi Gagal', $msg);
+            alert_content('error', 'Gagal Melakukan Transaksi', $msg);
         }
     }
 
@@ -101,9 +115,17 @@ class Transaction extends CI_Controller
 
                     $this->order->insert_new_order($data_order);
                 }
-
                 $this->update_saldo($this->session->userdata('user_id'), $total, 'min');
                 $this->update_saldo($post['user_toko_id'], $total, 'plus');
+
+                $data_notif = [
+                    'nama_penerima' => $this->session->userdata('nama'),
+                    'transaction_id' => $this->transaction_id,
+                    'id_pengirim' => $this->session->userdata('user_id'),
+                    'id_penerima' => $post['user_toko_id']
+                ];
+                $this->notif->add_notif('pesan', $data_notif, $post['jenis']);
+
                 $msg = 'Pesanan Telah Dikirim!';
                 alert_content('success', 'Berhasil Melakukan Transaksi', $msg, 'reload');
             } else {
@@ -112,7 +134,7 @@ class Transaction extends CI_Controller
             }
         } else {
             $msg = 'Saldo Kurang';
-            alert_content('error', 'Transaksi Gagal', $msg);
+            alert_content('error', 'Gagal Melakukan Transaksi', $msg);
         }
     }
 
@@ -158,19 +180,28 @@ class Transaction extends CI_Controller
                 if ($result2) {
                     $this->update_saldo($this->session->userdata('user_id'), $total, 'min');
                     $this->update_saldo($post['user_print_id'], $total, 'plus');
+
+                    $data_notif = [
+                        'nama_penerima' => $this->session->userdata('nama'),
+                        'transaction_id' => $this->transaction_id,
+                        'id_pengirim' => $this->session->userdata('user_id'),
+                        'id_penerima' => $post['user_id']
+                    ];
+                    $this->notif->add_notif('pesan', $data_notif, 'print');
+
                     $msg = 'Pesanan Print Telah Dikirim';
-                    alert_content('success', 'Melakukan Transaksi', $msg, 'reload');
+                    alert_content('success', 'Berhasil Melakukan Transaksi', $msg, 'reload');
                 } else {
                     $msg = 'Gagal Mengirim Pesanan!';
-                    alert_content('error', 'Melakukan Transaksi', $msg);
+                    alert_content('error', 'Gagal Melakukan Transaksi', $msg);
                 }
             } else {
                 $msg = 'Server Error';
-                alert_content('error', 'Melakukan Transaksi', $msg);
+                alert_content('error', 'Gagal Melakukan Transaksi', $msg);
             }
         } else {
             $msg = 'Saldo Kurang';
-            alert_content('error', 'Transaksi Gagal', $msg);
+            alert_content('error', 'Gagal Melakukan Transaksi', $msg);
         }
     }
 
@@ -205,8 +236,17 @@ class Transaction extends CI_Controller
                 if ($result2) {
                     $this->update_saldo($this->session->userdata('user_id'), $post['jml_transfer'], 'min');
                     $this->update_saldo($post['id_penerima'], $post['jml_transfer'], 'plus');
+
+                    $data_notif = [
+                        'nama_pengirim' => $this->session->userdata('nama'),
+                        'jml_transfer' => $post['jml_transfer'],
+                        'id_pengirim' => $this->session->userdata('user_id'),
+                        'id_penerima' => $post['id_penerima']
+                    ];
+                    $this->notif->add_notif('transfer', $data_notif);
+
                     $msg = "Berhasil mentransfer!";
-                    alert_content('success', 'Melakukan Transaksi', $msg, 'reload');
+                    alert_content('success', 'Berhasil Melakukan Transaksi', $msg, 'reload');
                 } else {
                     $msg = "Gagal Mentransfer!";
                     alert_content('error', 'Melakukan Transaksi', $msg);
@@ -297,9 +337,17 @@ class Transaction extends CI_Controller
     public function confirm()
     {
         $transaction_id = $this->uri->segment(3);
+        $transaction_data = $this->transaction->get_detail_order($transaction_id);
         
         $result = $this->transaction->update_transaction(['status' => 'selesai'], $transaction_id);
         if ($result) {
+            $data_notif = [
+                'transaction_id' => $this->transaction_id,
+                'id_pengirim' => $this->session->userdata('user_id'),
+                'id_penerima' => $transaction_data[0]->user_id
+            ];
+            $this->notif->add_notif('beli', $data_notif);
+
             $msg =  'Pesanan Telah Dikonfirmasi!';
             alert_content('success', 'Berhasil', $msg, 'reload');
         } else {

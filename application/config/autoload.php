@@ -58,7 +58,7 @@ $autoload['packages'] = array();
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array('database', 'session', 'Template', 'Auth_Checked' => 'auth');
+$autoload['libraries'] = array('database', 'session', 'Template', 'Auth_Checked' => 'auth', 'Notif' => 'notif');
 
 /*
 | -------------------------------------------------------------------
@@ -89,7 +89,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('url', 'Tanggal', 'Rupiah', 'Alert');
+$autoload['helper'] = array('url', 'Tanggal', 'Rupiah', 'Alert', 'Time');
 
 /*
 | -------------------------------------------------------------------
