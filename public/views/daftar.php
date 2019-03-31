@@ -33,7 +33,7 @@
                                             <img src="<?= base_url('public/assets/img/blank_user.png') ?>" alt="" class="w-50 rounded-circle bg-secondary p-1 avatar">
                                         </div>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="upload-foto" required />
+                                            <input type="file" name="foto" class="custom-file-input upload-foto" id="upload-foto" accept="image/x-png,image/jpeg" required />
                                             <label class="custom-file-label" for="upload-foto" data-browse="Pilih File">Pilih File</label>
                                         </div>
                                     </div>
