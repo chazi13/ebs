@@ -9,6 +9,20 @@ class Tokos_Model extends CI_Model
         return $result;
     }
 
+    public function get_toko_by_toko_id($toko_id)
+    {
+        $this->db->where('toko_id', $toko_id);
+        $data_return = $this->db->get('tokos')->result();
+        return $data_return;
+    }
+
+    public function get_toko_by_jenis_toko($jenis_toko)
+    {
+        $this->db->where('jenis_toko', $jenis_toko);
+        $data_return = $this->db->get('tokos')->result();
+        return $data_return;
+    }
+
     public function get_toko_by_user_id($user_id)
     {
         $this->db->where('user_id', $user_id);

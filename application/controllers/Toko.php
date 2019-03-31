@@ -163,5 +163,29 @@ class Toko extends CI_Controller
         }
     }
     
+    public function kantin()
+    {
+        $data['kantin'] = $this->toko->get_toko_by_jenis_toko('kantin');
+        $data['title'] = 'Kantin';
+        $data['kantin_active'] = 'active';
+
+        return $this->template->load('app/template', 'app/toko/list', $data);
+    }
+
+    public function detail($toko_id = 0)
+    {
+        $jenis_toko = $this->uri->segment(1);
+        if ($toko_id == '') {
+            $data_toko = $this->toko->get_toko_by_jenis_toko($jenis_toko);
+            $toko_id = $data_toko[0]->toko_id;
+        }
+
+        $data['toko'] = $this->toko->get_toko_by_toko_id($toko_id);
+        $data['item'] = $this->toko->get_item_by_toko_id($toko_id);
+        $data['title'] = 'Detail Toko';
+        $data[$jenis_toko . '_active'] = 'active';
+
+        return $this->template->load('app/template', 'app/toko/detail', $data);
+    }
 }
 
